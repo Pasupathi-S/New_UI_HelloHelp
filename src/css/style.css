@@ -1,0 +1,14 @@
+@media (min-width: 768px) and (max-width: 1199px) {
+  .css-aim41u {
+    padding-left: 300px !important;
+    padding-top: 0px !important;
+  }
+}
+.agent-detail-row,
+.customer-detail-row {
+  word-break: break-all !important;
+  overflow-wrap: anywhere !important;
+}
+.sidenav-bg {
+  background-color: #5848db !important;
+}
