@@ -11,6 +11,9 @@ import MDButton from "components/MDButton";
 import EditAgentDialog from "./EditAgentDialog";
 import DataTable from "examples/Tables/DataTable";
 import team2 from "assets/images/team-2.jpg";
+import { Tooltip, IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Author = ({ image, name, email }) => (
   <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -18,10 +21,12 @@ const Author = ({ image, name, email }) => (
       <PersonIcon sx={{ color: "#fff" }} />
     </MDAvatar>
     <MDBox ml={2} lineHeight={1}>
-      <MDTypography display="block" variant="button" fontWeight="medium">
-        {name || "-"}
-      </MDTypography>
-      <MDTypography variant="caption">{email || "-"}</MDTypography>
+      {name && (
+        <MDTypography display="block" variant="button" fontWeight="medium">
+          {name}
+        </MDTypography>
+      )}
+      {email && <MDTypography variant="caption">{email}</MDTypography>}
     </MDBox>
   </MDBox>
 );
@@ -87,9 +92,16 @@ export default function AgentList() {
         username: (
           <Author
             image={team2}
-            name={(agent.username || "").charAt(0).toUpperCase() + (agent.username || "").slice(1)}
+            email={""}
+            name={
+              agent.username
+                ? agent.username.split(" ")[0].charAt(0).toUpperCase() +
+                  agent.username.split(" ")[0].slice(1)
+                : ""
+            }
           />
         ),
+
         email: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             {agent.email || "-"}
@@ -103,52 +115,40 @@ export default function AgentList() {
           </MDBox>
         ),
         action: (
-          <MDBox display="flex">
-            <MDButton
-              component={Link}
-              to={`/agent/${agent.id}`}
-              variant="outlined"
-              size="small"
-              sx={{
-                border: "none",
-                backgroundColor: "#64757c",
-                textTransform: "none",
-                borderRadius: "5px",
-                color: "#fff",
-                fontWeight: 600,
-                "&:hover": {
-                  backgroundColor: "#64757c",
-                  color: "#fff",
-                },
-              }}
-              startIcon={<Icon>visibility</Icon>}
-            >
-              View
-            </MDButton>
-            <MDButton
-              onClick={() => {
-                setCurrentAgent(agent);
-                setEditOpen(true);
-              }}
-              variant="outlined"
-              size="small"
-              sx={{
-                border: "none",
-                backgroundColor: "#64757c",
-                textTransform: "none",
-                borderRadius: "5px",
-                color: "#fff",
-                fontWeight: 600,
-                ml: 1,
-                "&:hover": {
-                  backgroundColor: "#64757c",
-                  color: "#fff",
-                },
-              }}
-              startIcon={<Icon>edit</Icon>}
-            >
-              Edit
-            </MDButton>
+          <MDBox display="flex" gap={1}>
+            <Tooltip title="View" arrow>
+              <IconButton
+                component={Link}
+                to={`/agent/${agent.id}`}
+                sx={{
+                  color: "#181313",
+                  "&:hover": {
+                    color: "#181313", // Hover color for View icon
+                  },
+                }}
+                size="small"
+              >
+                <VisibilityIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Edit" arrow>
+              <IconButton
+                onClick={() => {
+                  setCurrentAgent(agent);
+                  setEditOpen(true);
+                }}
+                sx={{
+                  color: "#181313",
+                  "&:hover": {
+                    color: "#181313", // Hover color for View icon
+                  },
+                }}
+                size="small"
+              >
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Tooltip>
           </MDBox>
         ),
       }));
@@ -174,8 +174,10 @@ export default function AgentList() {
               <Author
                 image={team2}
                 name={
-                  (updatedAgent.username || "").charAt(0).toUpperCase() +
-                  (updatedAgent.username || "").slice(1)
+                  updatedAgent.username
+                    ? updatedAgent.username.split(" ")[0].charAt(0).toUpperCase() +
+                      updatedAgent.username.split(" ")[0].slice(1)
+                    : ""
                 }
               />
             ),
@@ -235,7 +237,10 @@ export default function AgentList() {
           rows: Array.isArray(rows) ? rows : [], // Double safety check
         }}
         isSorted={true}
-        entriesPerPage={{ defaultValue: 10 }}
+        entriesPerPage={{
+          defaultValue: 5,
+          entries: [5, 10, 15, 20, 50, 100, 200, 500, 1000],
+        }}
         showTotalEntries={true}
         noEndBorder
       />

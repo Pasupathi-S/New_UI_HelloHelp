@@ -11,6 +11,10 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import { GlobalStyles } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { Box } from "@mui/material";
+import { Tooltip, IconButton } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
 
 // Format time to readable format
 function formatTime(dateStr) {
@@ -92,30 +96,18 @@ export default function RecentCallsTable() {
     time: formatTime(call.started_at),
     duration: getDuration(call.started_at, call.ended_at),
     action: (
-      <MDButton
-        component={Link}
-        to={`/CallDetails/${call.id}`}
-        variant="text"
-        sx={{
-          color: "#000E29",
-          border: "none",
-          backgroundColor: "#64757c",
-          textTransform: "none",
-          borderRadius: "5px",
-
-          color: "#fff",
-          textTransform: "none",
-          fontWeight: 600,
-          "&:hover": {
-            backgroundColor: "#64757c",
-            color: "#fff",
-            border: "none",
-          },
-        }}
-        startIcon={<Icon>visibility</Icon>}
-      >
-        View
-      </MDButton>
+      <MDBox display="flex" gap={1}>
+        <Tooltip title="View" arrow>
+          <IconButton
+            component={Link}
+            to={`/CallDetails/${call.id}`}
+            sx={{ color: "#181313", "&:hover": { color: "#181313" } }}
+            size="small"
+          >
+            <VisibilityIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </MDBox>
     ),
   }));
 

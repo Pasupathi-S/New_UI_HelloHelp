@@ -29,7 +29,7 @@ function Users() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  const { columns: pColumns, rows: pRows } = CustomerList(fromDate, toDate);
+  const { columns: pColumns, rows: pRows, editDialog } = CustomerList(fromDate, toDate);
 
   const [form, setForm] = useState({
     username: "",
@@ -55,7 +55,6 @@ function Users() {
       <DashboardNavbar />
       <MDBox pt={6} pb={5}>
         <Grid container spacing={6}>
-          {/* Agents Table */}
           <Grid item xs={12}>
             <Card>
               <MDBox
@@ -110,7 +109,6 @@ function Users() {
             </Card>
           </Grid>
 
-          {/* Customers Table with Date Filter */}
           <Grid item xs={12}>
             <Card>
               <MDBox
@@ -136,7 +134,6 @@ function Users() {
                 </Box>
               </MDBox>
 
-              {/* Filter Row */}
               <MDBox
                 display="flex"
                 justifyContent="space-between"
@@ -222,6 +219,8 @@ function Users() {
           </Grid>
         </Grid>
       </MDBox>
+
+      {editDialog}
 
       <Snackbar
         open={snackbarOpen}
