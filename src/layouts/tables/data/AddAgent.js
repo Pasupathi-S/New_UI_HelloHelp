@@ -5,6 +5,8 @@ import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import axios from "axios";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function AddAgent({ form, onChange, onAgentAdded, onClose }) {
   const [formData, setFormData] = useState(form);
@@ -14,6 +16,11 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
     lowercase: false,
     special: false,
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -149,17 +156,26 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             margin="normal"
           />
           <MDInput
-            type="password"
+            type={showPassword ? "text" : "password"}
             label="Password"
             name="password"
             fullWidth
             value={formData.password}
             onChange={handleChange}
             inputProps={{ maxLength: 20 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleClickShowPassword} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             margin="normal"
           />
           <MDBox mt={1} mb={2} color="text.secondary">
-            <ul style={{ margin: 0, paddingLeft: "20px" }}>
+            <ul className="er-font-size" style={{ margin: 0, paddingLeft: "20px" }}>
               <li style={{ color: passwordValidation.length ? "green" : "red" }}>
                 Minimum 8 characters
               </li>
@@ -179,11 +195,11 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
           </MDBox>
 
           <MDBox mt={3} mb={2} display="flex" justifyContent="space-between">
-            <MDButton type="submit" variant="gradient" color="info">
-              Add
-            </MDButton>
             <MDButton variant="outlined" color="error" onClick={onClose}>
               Cancel
+            </MDButton>
+            <MDButton type="submit" variant="gradient" color="info">
+              Add
             </MDButton>
           </MDBox>
         </MDBox>

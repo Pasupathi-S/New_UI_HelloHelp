@@ -13,6 +13,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import DataTable from "examples/Tables/DataTable";
+import { Tooltip, IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // Reusable Chips
 
@@ -24,8 +26,9 @@ function CallTypeChip({ value }) {
         backgroundColor: value === "audio" ? "#e3f0fc" : "#f3e8fd",
         color: value === "audio" ? "#1976d2" : "#9c27b0",
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: "18px",
         px: 1.5,
+        py: 0,
       }}
     />
   );
@@ -43,8 +46,9 @@ function StatusChip({ value }) {
           value === "accepted" ? "#e3fde8" : value === "initiated" ? "#fdf7e3" : "#fde3e3",
         color: value === "accepted" ? "#388e3c" : value === "initiated" ? "#fbc02d" : "#d32f2f",
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: "18px",
         px: 1.5,
+        py: 0,
       }}
     />
   );
@@ -59,6 +63,7 @@ function IdChip({ value }) {
       label={value}
       sx={{
         backgroundColor: "#ffffff",
+        py: 0,
       }}
     />
   );
@@ -74,6 +79,7 @@ function CallerChip({ value }) {
       sx={{
         backgroundColor: "#ffffff",
         px: 1.5,
+        py: 0,
       }}
     />
   );
@@ -89,6 +95,7 @@ function ReceiverChip({ value }) {
       sx={{
         backgroundColor: "#ffffff",
         px: 3.5,
+        py: 0,
       }}
     />
   );
@@ -106,8 +113,9 @@ function DeviceTypeChip({ row }) {
         backgroundColor: "#ede7f6",
         color: "#5e35b1",
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: "18px",
         px: 1.5,
+        py: 0,
       }}
     />
   );
@@ -124,27 +132,18 @@ DeviceTypeChip.propTypes = {
 
 function ActionButton({ row }) {
   return (
-    <MDButton
-      component={Link}
-      to={`/CallDetails/${row.original.id}`}
-      variant="text"
-      sx={{
-        color: "#000E29",
-        border: "none",
-        backgroundColor: "#64757c",
-        textTransform: "none",
-        borderRadius: "5px",
-        color: "#fff",
-        fontWeight: 600,
-        "&:hover": {
-          backgroundColor: "#64757c",
-          color: "#fff",
-        },
-      }}
-      startIcon={<Icon>visibility</Icon>}
-    >
-      View
-    </MDButton>
+    <MDBox display="flex" gap={1}>
+      <Tooltip title="View" arrow>
+        <IconButton
+          component={Link}
+          to={`/CallDetails/${row.original.id}`}
+          sx={{ color: "#181313", "&:hover": { color: "#181313" } }}
+          size="small"
+        >
+          <VisibilityIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    </MDBox>
   );
 }
 ActionButton.propTypes = {

@@ -90,9 +90,10 @@ const EditAgentDialog = ({ open, agent, onClose, onUpdate }) => {
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="secondary">
+        <Button onClick={onClose} color="secondary" variant="contained" sx={{ color: "#fff" }}>
           Cancel
         </Button>
+
         <MDButton onClick={handleSubmit} color="info" disabled={loading}>
           {loading ? "Saving..." : "Save Changes"}
         </MDButton>

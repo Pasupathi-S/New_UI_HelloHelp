@@ -228,11 +228,34 @@ export default function AgentList() {
       <DataTable
         table={{
           columns: [
-            { Header: "Id", accessor: "id", width: "10%", align: "left" },
-            { Header: "Firstname", accessor: "username", width: "20%", align: "left" },
-            { Header: "Email", accessor: "email", align: "left" },
-            { Header: "Phone no", accessor: "phone", align: "center" },
-            { Header: "Action", accessor: "action", align: "center" },
+            {
+              Header: () => <MDBox>Id</MDBox>,
+              accessor: "id",
+              align: "left",
+              width: "10%",
+            },
+            {
+              Header: () => <MDBox>Firstname</MDBox>,
+              accessor: "username",
+              align: "left",
+              width: "18%",
+            },
+            {
+              Header: () => <MDBox>Email</MDBox>,
+              accessor: "email",
+              align: "left",
+              width: "25%",
+            },
+            {
+              Header: () => <MDBox>Phone no</MDBox>,
+              accessor: "phone",
+              align: "left",
+            },
+            {
+              Header: () => <MDBox>Action</MDBox>,
+              accessor: "action",
+              align: "left",
+            },
           ],
           rows: Array.isArray(rows) ? rows : [], // Double safety check
         }}

@@ -14,11 +14,11 @@ import PropTypes from "prop-types";
 
 export default function useCustomerList(fromDate = null, toDate = null) {
   const Author = ({ image, name, email }) => (
-    <MDBox display="flex" alignItems="center" lineHeight={1}>
+    <MDBox display="flex" alignItems="center">
       <MDAvatar size="sm" sx={{ bgcolor: "#000E29" }}>
         <PersonIcon sx={{ color: "#fff" }} />
       </MDAvatar>
-      <MDBox ml={2} lineHeight={1}>
+      <MDBox ml={2}>
         <MDTypography display="block" variant="button" fontWeight="medium">
           {name}
         </MDTypography>

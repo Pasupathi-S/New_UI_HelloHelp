@@ -66,7 +66,7 @@ export default function RecentCallsTable() {
           backgroundColor: call.call_type === "audio" ? "#e3f0fc" : "#f3e8fd",
           color: call.call_type === "audio" ? "#1976d2" : "#9c27b0",
           fontWeight: 500,
-          borderRadius: "8px",
+          borderRadius: "18px",
           px: 1.5,
         }}
       />
@@ -88,7 +88,7 @@ export default function RecentCallsTable() {
               ? "#fbc02d"
               : "#d32f2f",
           fontWeight: 500,
-          borderRadius: "8px",
+          borderRadius: "18px",
           px: 1.5,
         }}
       />
@@ -166,14 +166,32 @@ export default function RecentCallsTable() {
                 <DataTable
                   table={{
                     columns: [
-                      { Header: "ID", accessor: "id" },
-                      { Header: "Caller", accessor: "caller_name" },
-                      { Header: "Receiver", accessor: "receiver_name" },
+                      {
+                        Header: () => <MDBox sx={{ mr: 2 }}>ID</MDBox>,
+                        accessor: "id",
+                        align: "left",
+                      },
+                      {
+                        Header: () => <MDBox sx={{ mr: 2 }}>Caller</MDBox>,
+                        accessor: "caller_name",
+                      },
+
+                      {
+                        Header: () => <MDBox sx={{ mr: 2 }}>Receiver</MDBox>,
+                        accessor: "receiver_name",
+                      },
                       { Header: "Call Type", accessor: "call_type" },
                       { Header: "Status", accessor: "status" },
-                      { Header: "Time", accessor: "time" },
-                      { Header: "Duration", accessor: "duration" },
-                      { Header: "Action", accessor: "action" },
+                      { Header: () => <MDBox sx={{ mr: 2 }}>Time</MDBox>, accessor: "time" },
+                      {
+                        Header: () => <MDBox sx={{ mr: 2 }}>Duration</MDBox>,
+                        accessor: "duration",
+                      },
+                      {
+                        Header: () => <MDBox sx={{ mr: 2 }}>Action</MDBox>,
+                        accessor: "action",
+                        align: "left",
+                      },
                     ],
                     rows: rows,
                   }}

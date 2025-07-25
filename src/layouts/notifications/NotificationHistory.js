@@ -25,7 +25,7 @@ function StatusChip({ value }) {
         backgroundColor: value === "Sent" ? "#e3fde8" : "#fde3e3",
         color: value === "Sent" ? "#388e3c" : "#d32f2f",
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: "18px",
         px: 1.5,
       }}
     />

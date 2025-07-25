@@ -65,7 +65,7 @@
   "devDependencies": {
     "ajv": "^7.2.4",
     "eslint": "8.39.0",
-    "eslint-config-prettier": "8.8.0",
+    "eslint-config-prettier": "^8.10.2",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-prettier": "4.2.1",

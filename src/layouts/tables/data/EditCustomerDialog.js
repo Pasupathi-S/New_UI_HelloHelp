@@ -177,9 +177,10 @@ const EditCustomerDialog = ({ open, customer, onClose, refreshData, onSuccessUpd
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="secondary">
+        <Button onClick={onClose} color="secondary" variant="contained" sx={{ color: "#fff" }}>
           Cancel
         </Button>
+
         <MDButton onClick={handleSubmit} color="info" disabled={loading}>
           {loading ? "Saving..." : "Save Changes"}
         </MDButton>
