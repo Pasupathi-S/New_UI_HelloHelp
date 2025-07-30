@@ -14,6 +14,18 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import PropTypes from "prop-types";
+import EmailIcon from "@mui/icons-material/Email";
+import PersonIcon from "@mui/icons-material/Person";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PhoneIcon from "@mui/icons-material/Phone";
+import PublicIcon from "@mui/icons-material/Public";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
+import HomeIcon from "@mui/icons-material/Home";
+import PinDropIcon from "@mui/icons-material/PinDrop";
+import MapIcon from "@mui/icons-material/Map";
+import TvIcon from "@mui/icons-material/Tv";
+import RouterIcon from "@mui/icons-material/Router";
+import NetworkCellIcon from "@mui/icons-material/NetworkCell";
 
 export default function AgentDetails() {
   const { id } = useParams();
@@ -65,7 +77,7 @@ export default function AgentDetails() {
   return (
     <Card
       sx={{
-        width: { xs: "95%", sm: "90%", md: "90%", lg: "70%" },
+        width: { xs: "95%", sm: "90%", md: "90%", lg: "75%" },
         mx: { xs: "auto", sm: "auto", md: "auto", lg: 36, xl: 38 },
         mt: 4,
         mb: 4,
@@ -107,23 +119,26 @@ export default function AgentDetails() {
         >
           <Avatar
             sx={{
-              width: { xs: 100, sm: 120, md: 130 },
-              height: { xs: 100, sm: 120, md: 130 },
-              border: "5px solid #fff",
+              width: { xs: 100, sm: 120, md: 70 },
+              height: { xs: 100, sm: 120, md: 70 },
+              border: "3px solid #fff",
               background: "#281b62",
               position: "absolute",
-              bottom: -65,
+              bottom: -40,
               left: "50%",
               transform: "translateX(-50%)",
-              fontSize: { xs: 40, sm: 50, md: 60 },
+              fontSize: { xs: 40, sm: 50, md: 45 },
+              fontWeight: { xs: 400, sm: 500, md: 800 },
               boxShadow: 3,
             }}
-          />
+          >
+            {agent.username?.charAt(0).toUpperCase() || "-"}
+          </Avatar>
         </Box>
 
         <Box
           sx={{
-            mt: 10,
+            mt: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -135,14 +150,14 @@ export default function AgentDetails() {
             sx={{
               mt: 1,
               color: "#222",
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+              fontSize: { xs: "1.5rem", sm: "2rem", md: "2rem" },
             }}
           >
-            {agent.username?.charAt(0).toUpperCase() + agent.username?.slice(1)}
+            {agent.username?.charAt(0).toUpperCase() + agent.username?.slice(1) || "-"}
           </Typography>
           <Box
             sx={{
-              mt: 1,
+              my: 1,
               px: 2,
               py: 0.5,
               background: "#e3f0fc",
@@ -161,81 +176,341 @@ export default function AgentDetails() {
         </Typography>
 
         <Grid container spacing={2} sx={{ mt: 1 }}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <Paper
               elevation={2}
               sx={{
-                p: 5,
+                p: 3,
                 borderRadius: 3,
                 background: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
                 height: "100%",
               }}
             >
-              <DetailRow className="agent-detail-row" label="First Name" value={agent.username} />
-              <DetailRow
-                className="agent-detail-row"
-                label="Last Name"
-                value={agent.user_lastname}
-              />
-              <DetailRow className="agent-detail-row" label="Email" value={agent.email} />
-              <DetailRow
-                className="agent-detail-row"
-                label="Country Code"
-                value={agent.country_code}
-              />
-              <DetailRow className="agent-detail-row" label="Mobile" value={agent.phone} />
-              <DetailRow
-                className="agent-detail-row"
-                label="Landline Number"
-                value={agent.landline_number}
-              />
-              <DetailRow
-                className="agent-detail-row"
-                label="Address Line1"
-                value={agent.address_line1}
-              />
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom align="start">
+                Personal Details
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PersonIcon}
+                      className="agent-detail-row"
+                      label="First Name"
+                      value={agent.username}
+                    />
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PersonIcon}
+                      className="agent-detail-row"
+                      label="Last Name"
+                      value={agent.user_lastname}
+                    />
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={EmailIcon}
+                      className="agent-detail-row"
+                      label="Email"
+                      value={agent.email}
+                    />
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PublicIcon}
+                      className="agent-detail-row"
+                      label="Country Code"
+                      value={agent.country_code}
+                    />
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PhoneIcon}
+                      className="agent-detail-row"
+                      label="Mobile"
+                      value={agent.phone}
+                    />
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PhoneInTalkIcon}
+                      className="agent-detail-row"
+                      label="Landline Number"
+                      value={agent.landline_number}
+                    />
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={LocationOnIcon}
+                      className="agent-detail-row"
+                      label="Address Line1"
+                      value={agent.address_line1}
+                    />
+                  </Card>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <Paper
               elevation={2}
               sx={{
-                p: 5,
+                p: 3,
                 borderRadius: 3,
                 background: "#fff",
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
                 height: "100%",
               }}
             >
-              <DetailRow
-                className="agent-detail-row"
-                label="Address Line2"
-                value={agent.address_line2}
-              />
-              <DetailRow className="agent-detail-row" label="Zip Code" value={agent.zip_code} />
-              <DetailRow className="agent-detail-row" label="State" value={agent.state} />
-              <DetailRow className="agent-detail-row" label="Country" value={agent.country} />
-              <DetailRow
-                className="agent-detail-row"
-                label="TV Provider Account Number"
-                value={agent.tv_provider_account_number}
-              />
-              <DetailRow
-                className="agent-detail-row"
-                label="Internet Provider Account Number"
-                value={agent.internet_provider_account_number}
-              />
-              <DetailRow
-                className="agent-detail-row"
-                label="Wireless Provider Account Number"
-                value={agent.wireless_provider_account_number}
-              />
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom align="start">
+                Address & Provider info
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={HomeIcon}
+                      className="agent-detail-row"
+                      label="Address Line2"
+                      value={agent.address_line2}
+                    />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PinDropIcon}
+                      className="agent-detail-row"
+                      label="Zip Code"
+                      value={agent.zip_code}
+                    />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={MapIcon}
+                      className="agent-detail-row"
+                      label="State"
+                      value={agent.state}
+                    />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={PublicIcon}
+                      className="agent-detail-row"
+                      label="Country"
+                      value={agent.country}
+                    />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={TvIcon}
+                      className="agent-detail-row"
+                      label="TV Provider Account Number"
+                      value={agent.tv_provider_account_number}
+                    />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      // paddingTop: "15px",
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      // height: "85px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={RouterIcon}
+                      className="agent-detail-row"
+                      label="Internet Provider Account Number"
+                      value={agent.internet_provider_account_number}
+                    />
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                  <Card
+                    elevation={3}
+                    sx={{
+                      p: 2,
+                      // paddingTop: "15px",
+                      borderRadius: 2,
+                      boxShadow: 3,
+                      // height: "85px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <DetailRow
+                      icon={NetworkCellIcon}
+                      className="agent-detail-row"
+                      label="Wireless Provider Account Number"
+                      value={agent.wireless_provider_account_number}
+                    />
+                  </Card>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
@@ -244,17 +519,46 @@ export default function AgentDetails() {
   );
 }
 
-const DetailRow = ({ label, value, className }) => (
-  <Box className={className} display="flex" gap={1} alignItems="center" mb={1}>
-    <Typography color="text.secondary" sx={{ fontSize: "0.95rem", minWidth: 150 }}>
-      {label}:
-    </Typography>
-    <Typography sx={{ fontSize: "1rem", fontWeight: 500 }}>{value || "-"}</Typography>
-  </Box>
+const DetailRow = ({ label, value, icon: Icon, className }) => (
+  <Grid container alignItems="center" className={className}>
+    {/* Icon Column */}
+    <Grid item xs={3} sm={2} md={2} lg={2}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          backgroundColor: "#e3f2fd", // light blue background
+          borderRadius: "50%",
+          width: 40,
+          height: 40,
+        }}
+      >
+        <Icon sx={{ color: "#1976d2", fontSize: 24 }} />
+      </Box>
+    </Grid>
+
+    {/* Text Column */}
+    <Grid item xs={9} sm={10} md={10} lg={10} sx={{ paddingLeft: "5px" }}>
+      <Typography
+        variant="body2"
+        sx={{ color: "#281B62", fontWeight: 500, fontSize: "0.9rem" }} // muted gray label
+      >
+        {label}
+      </Typography>
+      <Typography
+        variant="subtitle1"
+        sx={{ fontWeight: 600, color: "#000", fontSize: "1rem" }} // value with bold black
+      >
+        {value || "-"}
+      </Typography>
+    </Grid>
+  </Grid>
 );
 
 DetailRow.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   className: PropTypes.string,
+  icon: PropTypes.elementType,
 };

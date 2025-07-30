@@ -86,7 +86,14 @@ const CallsChartCard = () => {
   }, [timeRange]);
 
   return (
-    <Card sx={{ height: "100%", width: isMobile ? "100%" : "155%", borderRadius: 3 }}>
+    <Card
+      sx={{
+        height: "100%",
+        marginLeft: "-17px",
+        width: isMobile ? "100%" : "160.5%",
+        borderRadius: 3,
+      }}
+    >
       <MDBox
         mx={2}
         mt={-3}

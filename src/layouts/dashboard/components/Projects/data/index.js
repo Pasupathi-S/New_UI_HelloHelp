@@ -58,28 +58,33 @@ export default function RecentCallsTable() {
   const rows = callLogs.map((call) => ({
     id: call.id,
     caller_name: call.caller_name || "-",
-    receiver_name: call.receiver_name || "-",
+    receiver_name: call.receiver_name
+      ? `${call.receiver_name.charAt(0).toUpperCase()}${call.receiver_name.slice(1)}`
+      : "-",
+
     call_type: (
       <Chip
-        label={call.call_type}
+        label={call.call_type.charAt(0).toUpperCase() + call.call_type.slice(1)}
         sx={{
           backgroundColor: call.call_type === "audio" ? "#e3f0fc" : "#f3e8fd",
           color: call.call_type === "audio" ? "#1976d2" : "#9c27b0",
           fontWeight: 500,
-          borderRadius: "18px",
-          px: 1.5,
+          borderRadius: "8px",
+          px: 1,
+          py: 0,
+          height: "24px",
         }}
       />
     ),
     status: (
       <Chip
-        label={call.status}
+        label={call.status.charAt(0).toUpperCase() + call.status.slice(1)}
         sx={{
           backgroundColor:
             call.status === "accepted"
               ? "#e3fde8"
               : call.status === "initiated"
-              ? "#fdf7e3"
+              ? "#fff5d3"
               : "#fde3e3",
           color:
             call.status === "accepted"
@@ -88,8 +93,10 @@ export default function RecentCallsTable() {
               ? "#fbc02d"
               : "#d32f2f",
           fontWeight: 500,
-          borderRadius: "18px",
-          px: 1.5,
+          borderRadius: "8px",
+          px: 1,
+          py: 0,
+          height: "24px",
         }}
       />
     ),
@@ -135,7 +142,12 @@ export default function RecentCallsTable() {
       <MDBox
         pt={2}
         pb={3}
-        sx={{ height: "100%", width: isMobile ? "100%" : "155%", borderRadius: 3 }}
+        sx={{
+          height: "100%",
+          marginLeft: "-17px",
+          width: isMobile ? "100%" : "160.5%",
+          borderRadius: 3,
+        }}
       >
         <Grid container spacing={6}>
           <Grid item xs={12}>

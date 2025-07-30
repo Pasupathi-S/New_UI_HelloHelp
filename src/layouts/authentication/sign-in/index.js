@@ -173,16 +173,20 @@ function Basic() {
             )}
             {/* Reset Password & Forget Password */}
             <MDBox mb={2}>
-              <Grid container alignItems="center" wrap="nowrap">
+              <Grid container>
                 <Grid item xs={6}>
                   <MDTypography
                     variant="button"
                     fontWeight="medium"
                     sx={{
-                      color: "#281b62",
+                      background: "(90deg, #000E29 0%, #000E29 100%)", // correct gradient
+                      color: "white", // text color inside the dark background
+                      fontWeight: 600,
                       cursor: "pointer",
                       textAlign: "left",
-                      whiteSpace: "nowrap", // prevent text wrap
+                      px: 1, // optional padding
+                      py: 0.5,
+                      borderRadius: "4px", // optional rounded corners
                     }}
                     onClick={handleResetPassword}
                   >
@@ -192,12 +196,17 @@ function Basic() {
                 <Grid item xs={6} sx={{ textAlign: "right" }}>
                   <MDTypography
                     variant="button"
-                    fontWeight="medium"
                     sx={{
-                      color: "#281b62",
+                      background: "(90deg, #000E29 0%, #000E29 100%)",
+                      color: "white",
+                      fontWeight: 600,
                       cursor: "pointer",
-                      whiteSpace: "nowrap", // prevent text wrap
+                      textAlign: "left",
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: "4px",
                     }}
+                    fontWeight="medium"
                     onClick={handleForgotPassword}
                   >
                     Forgot password?

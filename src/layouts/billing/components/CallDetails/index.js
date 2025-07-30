@@ -39,7 +39,7 @@ const chipStyles = {
   },
   status: {
     accepted: { backgroundColor: "#e3fde8", color: "#388e3c" },
-    initiated: { backgroundColor: "#fdf7e3", color: "#fbc02d" },
+    initiated: { backgroundColor: "#fff5d3", color: "#fbc02d" },
     ended: { backgroundColor: "#fde3e3", color: "#d32f2f" },
   },
 };
@@ -174,7 +174,7 @@ export default function CallDetails() {
                     ...chipStyles.type[row.call_type],
                     fontWeight: 500,
                     borderRadius: "8px",
-                    px: 1.5,
+                    px: 1,
                     fontSize: 14,
                     textTransform: "capitalize",
                   }}
@@ -186,7 +186,7 @@ export default function CallDetails() {
                     ...chipStyles.status[row.status],
                     fontWeight: 500,
                     borderRadius: "8px",
-                    px: 1.5,
+                    px: 1,
                     fontSize: 14,
                     textTransform: "capitalize",
                   }}

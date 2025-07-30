@@ -25,8 +25,9 @@ function StatusChip({ value }) {
         backgroundColor: value === "Sent" ? "#e3fde8" : "#fde3e3",
         color: value === "Sent" ? "#388e3c" : "#d32f2f",
         fontWeight: 500,
-        borderRadius: "18px",
-        px: 1.5,
+        borderRadius: "8px",
+        px: 1,
+        height: "24px",
       }}
     />
   );
@@ -83,7 +84,7 @@ function NotificationHistory() {
             campaignId: n.campaign_id || "-",
             date: dayjs(n.sent_at).format("DD-MM-YYYY hh:mm A"),
             userid: n.user_id,
-            username: n.username,
+            username: n.username.charAt(0).toUpperCase() + n.username.slice(1),
             recipients: [n.username],
             title: n.title,
             message: n.body,

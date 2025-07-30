@@ -4,11 +4,11 @@
     padding-top: 0px !important;
   }
 }
-.agent-detail-row,
+/* .agent-detail-row,
 .customer-detail-row {
   word-break: break-all !important;
   overflow-wrap: anywhere !important;
-}
+} */
 .sidenav-bg {
   background-color: #5848db !important;
 }

@@ -21,14 +21,15 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 function CallTypeChip({ value }) {
   return (
     <Chip
-      label={value}
+      label={value.charAt(0).toUpperCase() + value.slice(1)}
       sx={{
         backgroundColor: value === "audio" ? "#e3f0fc" : "#f3e8fd",
         color: value === "audio" ? "#1976d2" : "#9c27b0",
         fontWeight: 500,
-        borderRadius: "18px",
-        px: 1.5,
+        borderRadius: "8px",
+        px: 1,
         py: 0,
+        height: "24px",
       }}
     />
   );
@@ -40,15 +41,16 @@ CallTypeChip.propTypes = {
 function StatusChip({ value }) {
   return (
     <Chip
-      label={value}
+      label={value.charAt(0).toUpperCase() + value.slice(1)}
       sx={{
         backgroundColor:
-          value === "accepted" ? "#e3fde8" : value === "initiated" ? "#fdf7e3" : "#fde3e3",
+          value === "accepted" ? "#e3fde8" : value === "initiated" ? "#fff5d3" : "#fde3e3",
         color: value === "accepted" ? "#388e3c" : value === "initiated" ? "#fbc02d" : "#d32f2f",
         fontWeight: 500,
-        borderRadius: "18px",
-        px: 1.5,
+        borderRadius: "8px",
+        px: 1,
         py: 0,
+        height: "24px",
       }}
     />
   );
@@ -113,9 +115,10 @@ function DeviceTypeChip({ row }) {
         backgroundColor: "#ede7f6",
         color: "#5e35b1",
         fontWeight: 500,
-        borderRadius: "18px",
-        px: 1.5,
+        borderRadius: "8px",
+        px: 1,
         py: 0,
+        height: "24px",
       }}
     />
   );
@@ -240,7 +243,12 @@ export default function CallHistory() {
                         return deviceA.localeCompare(deviceB);
                       },
                     },
-                    { Header: "Action", accessor: "actions", Cell: ActionButton },
+                    {
+                      Header: () => <MDBox sx={{ mr: 3 }}>Action</MDBox>,
+                      accessor: "actions",
+                      width: "50px",
+                      Cell: ActionButton,
+                    },
                   ],
                   rows: callLogs,
                 }}

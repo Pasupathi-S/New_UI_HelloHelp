@@ -71,14 +71,14 @@ function Dashboard() {
       progressValue: 0,
       progressColor: "#000E29",
     },
-    {
-      title: "One Day Customer List",
-      value: "-",
-      change: "",
-      icon: <VideocamIcon />,
-      progressValue: 0,
-      progressColor: "#000E29",
-    },
+    // {
+    //   title: "One Day Customer List",
+    //   value: "-",
+    //   change: "",
+    //   icon: <VideocamIcon />,
+    //   progressValue: 0,
+    //   progressColor: "#000E29",
+    // },
   ]);
 
   useEffect(() => {
@@ -125,14 +125,14 @@ function Dashboard() {
             progressValue: data.video_calls_progress ?? 0,
             progressColor: "success",
           },
-          {
-            title: "One Day Customer List",
-            value: data.video_calls ?? "-",
-            change: data.video_calls_change ?? "",
-            icon: <VideocamIcon />,
-            progressValue: data.video_calls_progress ?? 0,
-            progressColor: "success",
-          },
+          // {
+          //   title: "One Day Customer List",
+          //   value: data.video_calls ?? "-",
+          //   change: data.video_calls_change ?? "",
+          //   icon: <VideocamIcon />,
+          //   progressValue: data.video_calls_progress ?? 0,
+          //   progressColor: "success",
+          // },
         ]);
       })
       .catch(() => {

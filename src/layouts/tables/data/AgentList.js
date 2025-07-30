@@ -11,15 +11,13 @@ import MDButton from "components/MDButton";
 import EditAgentDialog from "./EditAgentDialog";
 import DataTable from "examples/Tables/DataTable";
 import team2 from "assets/images/team-2.jpg";
-import { Tooltip, IconButton } from "@mui/material";
+import { Tooltip, IconButton, Avatar } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Author = ({ image, name, email }) => (
   <MDBox display="flex" alignItems="center" lineHeight={1}>
-    <MDAvatar size="sm" sx={{ bgcolor: "#000E29" }}>
-      <PersonIcon sx={{ color: "#fff" }} />
-    </MDAvatar>
+    {image} {/* ← This will render the Avatar with the first letter */}
     <MDBox ml={2} lineHeight={1}>
       {name && (
         <MDTypography display="block" variant="button" fontWeight="medium">
@@ -91,8 +89,20 @@ export default function AgentList() {
         id: <Job title={String(agent.id || "")} />,
         username: (
           <Author
-            image={team2}
-            email={""}
+            image={
+              <Avatar
+                sx={{
+                  background: "#281b62",
+                  color: "#fff",
+                  width: "30px",
+                  height: "30px",
+                  fontSize: "15px",
+                  fontWeight: 800,
+                }}
+              >
+                {agent.username?.charAt(0).toUpperCase() || "?"}
+              </Avatar>
+            }
             name={
               agent.username
                 ? agent.username.split(" ")[0].charAt(0).toUpperCase() +
@@ -267,6 +277,7 @@ export default function AgentList() {
         showTotalEntries={true}
         noEndBorder
       />
+
       <EditAgentDialog
         open={editOpen}
         agent={currentAgent}

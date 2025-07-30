@@ -15,17 +15,22 @@ import PropTypes from "prop-types";
 export default function useCustomerList(fromDate = null, toDate = null) {
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center">
-      <MDAvatar size="sm" sx={{ bgcolor: "#000E29" }}>
-        <PersonIcon sx={{ color: "#fff" }} />
-      </MDAvatar>
+      {image}
       <MDBox ml={2}>
-        <MDTypography display="block" variant="button" fontWeight="medium">
-          {name}
-        </MDTypography>
-        <MDTypography variant="caption">{email}</MDTypography>
+        {name && (
+          <MDTypography display="block" variant="button" fontWeight="medium">
+            {name}
+          </MDTypography>
+        )}
+        {email && (
+          <MDTypography variant="caption" color="text">
+            {email}
+          </MDTypography>
+        )}
       </MDBox>
     </MDBox>
   );
+
   Author.propTypes = {
     image: PropTypes.string,
     name: PropTypes.string.isRequired,
@@ -79,7 +84,20 @@ export default function useCustomerList(fromDate = null, toDate = null) {
       id: <Job title={String(customer.id)} />,
       username: customer.username ? (
         <Author
-          image={team2}
+          image={
+            <MDAvatar
+              sx={{
+                background: "#281b62",
+                color: "#fff",
+                width: "30px",
+                height: "30px",
+                fontSize: "15px",
+                fontWeight: 800,
+              }}
+            >
+              {customer.username.charAt(0).toUpperCase()}
+            </MDAvatar>
+          }
           name={customer.username.charAt(0).toUpperCase() + customer.username.slice(1)}
         />
       ) : (
@@ -87,6 +105,7 @@ export default function useCustomerList(fromDate = null, toDate = null) {
           -
         </MDTypography>
       ),
+
       created_at: (
         <MDTypography variant="caption" color="text" fontWeight="medium">
           {customer.created_at
