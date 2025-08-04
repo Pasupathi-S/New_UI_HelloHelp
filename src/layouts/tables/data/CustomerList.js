@@ -1,16 +1,16 @@
-import React from "react";
-import axios from "axios";
-import { Tooltip, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDAvatar from "components/MDAvatar";
-import EditCustomerDialog from "./EditCustomerDialog";
-import team2 from "assets/images/team-2.jpg";
-import PropTypes from "prop-types";
+import React from 'react';
+import axios from 'axios';
+import { Tooltip, IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
+import MDAvatar from 'components/MDAvatar';
+import EditCustomerDialog from './EditCustomerDialog';
+import team2 from 'assets/images/team-2.jpg';
+import PropTypes from 'prop-types';
 
 export default function useCustomerList(fromDate = null, toDate = null) {
   const Author = ({ image, name, email }) => (
@@ -39,7 +39,7 @@ export default function useCustomerList(fromDate = null, toDate = null) {
   const Job = ({ title }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
-        {title || "-"}
+        {title || '-'}
       </MDTypography>
     </MDBox>
   );
@@ -52,28 +52,28 @@ export default function useCustomerList(fromDate = null, toDate = null) {
   const [currentCustomer, setCurrentCustomer] = React.useState(null);
 
   const fetchCustomers = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (!token) {
-      console.error("No token found");
+      console.error('No token found');
       return [];
     }
 
     try {
       const response = await axios.get(
-        "https://lemonpeak-hellohelp-backend.onrender.com/api/customer/customers",
+        'https://lemonpeak-hellohelp-backend.onrender.com/api/customer/customers',
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return response.data;
     } catch (error) {
-      console.error("Error fetching customers:", error);
+      console.error('Error fetching customers:', error);
       return [];
     }
   };
 
   const refreshData = async () => {
     const customerData = await fetchCustomers();
-    const from = fromDate ? new Date(fromDate + "T00:00:00") : null;
-    const to = toDate ? new Date(toDate + "T23:59:59.999") : null;
+    const from = fromDate ? new Date(fromDate + 'T00:00:00') : null;
+    const to = toDate ? new Date(toDate + 'T23:59:59.999') : null;
 
     const filteredData = customerData.filter((customer) => {
       const createdDate = new Date(customer.created_at);
@@ -87,11 +87,12 @@ export default function useCustomerList(fromDate = null, toDate = null) {
           image={
             <MDAvatar
               sx={{
-                background: "#281b62",
-                color: "#fff",
-                width: "30px",
-                height: "30px",
-                fontSize: "15px",
+                background: '#D2DCF6',
+                color: '#3B82F6',
+
+                width: '30px',
+                height: '30px',
+                fontSize: '15px',
                 fontWeight: 800,
               }}
             >
@@ -102,22 +103,22 @@ export default function useCustomerList(fromDate = null, toDate = null) {
         />
       ) : (
         <MDTypography variant="caption" color="text" fontWeight="medium">
-          -
+          Unknown
         </MDTypography>
       ),
 
       created_at: (
         <MDTypography variant="caption" color="text" fontWeight="medium">
           {customer.created_at
-            ? new Date(customer.created_at).toLocaleString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
+            ? new Date(customer.created_at).toLocaleString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
                 hour12: true,
               })
-            : "—"}
+            : '—'}
         </MDTypography>
       ),
       email: (
@@ -136,7 +137,7 @@ export default function useCustomerList(fromDate = null, toDate = null) {
             <IconButton
               component={Link}
               to={`/customer/${customer.id}`}
-              sx={{ color: "#181313", "&:hover": { color: "#181313" } }}
+              sx={{ color: '#181313', '&:hover': { color: '#181313' } }}
               size="small"
             >
               <VisibilityIcon fontSize="small" />
@@ -148,7 +149,7 @@ export default function useCustomerList(fromDate = null, toDate = null) {
                 setCurrentCustomer(customer);
                 setEditOpen(true);
               }}
-              sx={{ color: "#181313", "&:hover": { color: "#181313" } }}
+              sx={{ color: '#181313', '&:hover': { color: '#181313' } }}
               size="small"
             >
               <EditIcon fontSize="small" />
@@ -167,11 +168,11 @@ export default function useCustomerList(fromDate = null, toDate = null) {
 
   return {
     columns: [
-      { Header: "Id", accessor: "id", width: "7%", align: "left" },
-      { Header: "Firstname", accessor: "username", width: "11%", align: "left" },
-      { Header: "phone no", accessor: "phone_no", width: "11%", align: "left" },
-      { Header: "created at", accessor: "created_at", width: "11%", align: "left" },
-      { Header: "action", accessor: "action", width: "11%", align: "left" },
+      { Header: 'Id', accessor: 'id', width: '7%', align: 'left' },
+      { Header: 'Firstname', accessor: 'username', width: '11%', align: 'left' },
+      { Header: 'phone no', accessor: 'phone_no', width: '11%', align: 'left' },
+      { Header: 'created at', accessor: 'created_at', width: '11%', align: 'left' },
+      { Header: 'action', accessor: 'action', width: '11%', align: 'left' },
     ],
     rows,
     editDialog: (

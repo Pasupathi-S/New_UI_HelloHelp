@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import Card from "@mui/material/Card";
-import MDBox from "components/MDBox";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
-import axios from "axios";
-import { IconButton, InputAdornment } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Card from '@mui/material/Card';
+import MDBox from 'components/MDBox';
+import MDInput from 'components/MDInput';
+import MDButton from 'components/MDButton';
+import axios from 'axios';
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function AddAgent({ form, onChange, onAgentAdded, onClose }) {
   const [formData, setFormData] = useState(form);
@@ -25,15 +25,15 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "phone") {
-      const cleanedPhone = value.replace(/\D/g, "").slice(0, 10);
+    if (name === 'phone') {
+      const cleanedPhone = value.replace(/\D/g, '').slice(0, 10);
       setFormData((prev) => ({ ...prev, [name]: cleanedPhone }));
       onChange({ target: { name, value: cleanedPhone } });
-    } else if (name === "country_code") {
-      const cleanedCode = value.replace(/[^\d+]/g, "").slice(0, 5);
+    } else if (name === 'country_code') {
+      const cleanedCode = value.replace(/[^\d+]/g, '').slice(0, 5);
       setFormData((prev) => ({ ...prev, [name]: cleanedCode }));
       onChange({ target: { name, value: cleanedCode } });
-    } else if (name === "password") {
+    } else if (name === 'password') {
       // update form and validate password
       setFormData((prev) => ({ ...prev, [name]: value }));
       validatePassword(value);
@@ -59,27 +59,27 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
     const { username, user_lastname, email, phone, password } = formData;
 
     if (!username || !user_lastname || !email || !phone || !password) {
-      alert("Please fill all fields.");
+      alert('Please fill all fields.');
       return;
     }
     if (!/^\d{10}$/.test(phone)) {
-      alert("Please enter a valid 10-digit phone number.");
+      alert('Please enter a valid 10-digit phone number.');
       return;
     }
     if (!/^\+?\d{1,5}$/.test(formData.country_code)) {
-      alert("Enter a valid country code, like +91 or 1.");
+      alert('Enter a valid country code, like +91 or 1.');
       return;
     }
     const { length, uppercase, lowercase, special } = passwordValidation;
     if (!length || !uppercase || !lowercase || !special) {
-      alert("Password does not meet the required conditions.");
+      alert('Password does not meet the required conditions.');
       return;
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       await axios.post(
-        "https://lemonpeak-hellohelp-backend.onrender.com/api/auth/register",
+        'https://lemonpeak-hellohelp-backend.onrender.com/api/auth/register',
         {
           username,
           user_lastname,
@@ -96,7 +96,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
       if (onAgentAdded) onAgentAdded();
       if (onClose) onClose();
     } catch (error) {
-      alert("Failed to add agent.");
+      alert('Failed to add agent.');
       return false;
     }
   };
@@ -156,7 +156,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             margin="normal"
           />
           <MDInput
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             label="Password"
             name="password"
             fullWidth
@@ -175,20 +175,20 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             margin="normal"
           />
           <MDBox mt={1} mb={2} color="text.secondary">
-            <ul className="er-font-size" style={{ margin: 0, paddingLeft: "20px" }}>
-              <li style={{ color: passwordValidation.length ? "green" : "red" }}>
+            <ul className="er-font-size" style={{ margin: 0, paddingLeft: '20px' }}>
+              <li style={{ color: passwordValidation.length ? 'green' : 'red' }}>
                 Minimum 8 characters
               </li>
-              <li style={{ color: passwordValidation.uppercase ? "green" : "red" }}>
+              <li style={{ color: passwordValidation.uppercase ? 'green' : 'red' }}>
                 At least 1 uppercase letter
               </li>
-              <li style={{ color: passwordValidation.lowercase ? "green" : "red" }}>
+              <li style={{ color: passwordValidation.lowercase ? 'green' : 'red' }}>
                 At least 1 lowercase letter
               </li>
-              <li style={{ color: passwordValidation.number ? "green" : "red" }}>
+              <li style={{ color: passwordValidation.number ? 'green' : 'red' }}>
                 At least 1 number
               </li>
-              <li style={{ color: passwordValidation.special ? "green" : "red" }}>
+              <li style={{ color: passwordValidation.special ? 'green' : 'red' }}>
                 At least 1 special character
               </li>
             </ul>

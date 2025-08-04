@@ -1,9 +1,9 @@
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import React from "react";
+import MDBox from 'components/MDBox';
+import React from 'react';
 // import Performance from "layouts/dashboard/components/Projects/PerformanceMatrix";
-import CallsChartCard from "layouts/dashboard/components/Projects/chart";
-import RecentCalls from "layouts/dashboard/components/Projects/data";
+import CallsChartCard from 'layouts/dashboard/components/Projects/chart';
+import RecentCalls from 'layouts/dashboard/components/Projects/data';
 
 function Projects() {
   return (

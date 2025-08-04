@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   TextField,
   Button,
@@ -9,40 +9,40 @@ import {
   Select,
   InputLabel,
   FormControl,
-} from "@mui/material";
-import PropTypes from "prop-types";
+} from '@mui/material';
+import PropTypes from 'prop-types';
 
 const SendNotificationForm = ({ onSend }) => {
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
-  const [target, setTarget] = useState("all"); // all or single user
-  const [userId, setUserId] = useState("");
-  const [snackbar, setSnackbar] = useState({ open: false, severity: "success", message: "" });
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
+  const [target, setTarget] = useState('all'); // all or single user
+  const [userId, setUserId] = useState('');
+  const [snackbar, setSnackbar] = useState({ open: false, severity: 'success', message: '' });
 
   const handleSend = () => {
     if (!title || !message) {
-      setSnackbar({ open: true, severity: "error", message: "Title and message are required." });
+      setSnackbar({ open: true, severity: 'error', message: 'Title and message are required.' });
       return;
     }
-    if (target === "single" && !userId) {
-      setSnackbar({ open: true, severity: "error", message: "Please enter a user ID." });
+    if (target === 'single' && !userId) {
+      setSnackbar({ open: true, severity: 'error', message: 'Please enter a user ID.' });
       return;
     }
     onSend({ title, message, target, userId });
-    setSnackbar({ open: true, severity: "success", message: "Notification sent!" });
-    setTitle("");
-    setMessage("");
-    setUserId("");
-    setTarget("all");
+    setSnackbar({ open: true, severity: 'success', message: 'Notification sent!' });
+    setTitle('');
+    setMessage('');
+    setUserId('');
+    setTarget('all');
   };
 
   return (
     <Box
       sx={{
         maxWidth: 600,
-        margin: "auto",
-        display: "flex",
-        flexDirection: "column",
+        margin: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
         gap: 2,
         p: 3,
       }}
@@ -75,7 +75,7 @@ const SendNotificationForm = ({ onSend }) => {
           <MenuItem value="single">Single User</MenuItem>
         </Select>
       </FormControl>
-      {target === "single" && (
+      {target === 'single' && (
         <TextField
           label="User ID"
           variant="outlined"
@@ -93,12 +93,12 @@ const SendNotificationForm = ({ onSend }) => {
         open={snackbar.open}
         autoHideDuration={4000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert
           severity={snackbar.severity}
           onClose={() => setSnackbar({ ...snackbar, open: false })}
-          sx={{ width: "100%" }}
+          sx={{ width: '100%' }}
         >
           {snackbar.message}
         </Alert>

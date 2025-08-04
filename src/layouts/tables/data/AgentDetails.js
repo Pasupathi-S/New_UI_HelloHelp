@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Typography,
   Box,
@@ -10,22 +10,22 @@ import {
   Card,
   Button,
   Stack,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import axios from "axios";
-import PropTypes from "prop-types";
-import EmailIcon from "@mui/icons-material/Email";
-import PersonIcon from "@mui/icons-material/Person";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import PhoneIcon from "@mui/icons-material/Phone";
-import PublicIcon from "@mui/icons-material/Public";
-import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
-import HomeIcon from "@mui/icons-material/Home";
-import PinDropIcon from "@mui/icons-material/PinDrop";
-import MapIcon from "@mui/icons-material/Map";
-import TvIcon from "@mui/icons-material/Tv";
-import RouterIcon from "@mui/icons-material/Router";
-import NetworkCellIcon from "@mui/icons-material/NetworkCell";
+} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import EmailIcon from '@mui/icons-material/Email';
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PublicIcon from '@mui/icons-material/Public';
+import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
+import HomeIcon from '@mui/icons-material/Home';
+import PinDropIcon from '@mui/icons-material/PinDrop';
+import MapIcon from '@mui/icons-material/Map';
+import TvIcon from '@mui/icons-material/Tv';
+import RouterIcon from '@mui/icons-material/Router';
+import NetworkCellIcon from '@mui/icons-material/NetworkCell';
 
 export default function AgentDetails() {
   const { id } = useParams();
@@ -34,14 +34,14 @@ export default function AgentDetails() {
   const [loading, setLoading] = useState(true);
 
   const fetchAgent = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (!token) {
       setLoading(false);
       setAgent(null);
       return;
     }
     axios
-      .get("https://lemonpeak-hellohelp-backend.onrender.com/api/agent/agents", {
+      .get('https://lemonpeak-hellohelp-backend.onrender.com/api/agent/agents', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -77,13 +77,13 @@ export default function AgentDetails() {
   return (
     <Card
       sx={{
-        width: { xs: "95%", sm: "90%", md: "90%", lg: "75%" },
-        mx: { xs: "auto", sm: "auto", md: "auto", lg: 36, xl: 38 },
+        width: { xs: '95%', sm: '90%', md: '90%', lg: '75%' },
+        mx: { xs: 'auto', sm: 'auto', md: 'auto', lg: 36, xl: 38 },
         mt: 4,
         mb: 4,
         p: 2,
         borderRadius: 3,
-        background: "#f5f7fa",
+        background: '#f5f7fa',
       }}
     >
       <Box>
@@ -95,8 +95,8 @@ export default function AgentDetails() {
             onClick={() => navigate(-1)}
             sx={{
               fontWeight: 600,
-              color: "white",
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
+              color: 'white',
+              fontSize: { xs: '0.75rem', sm: '0.85rem' },
               px: { xs: 1.5, sm: 2 },
               py: { xs: 1, sm: 1.5 },
             }}
@@ -107,13 +107,13 @@ export default function AgentDetails() {
 
         <Box
           sx={{
-            width: "100%",
+            width: '100%',
             height: 100,
-            background: "#281b62",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            position: "relative",
+            background: '#1D4ED8',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            position: 'relative',
             borderRadius: 2,
           }}
         >
@@ -121,27 +121,28 @@ export default function AgentDetails() {
             sx={{
               width: { xs: 100, sm: 120, md: 70 },
               height: { xs: 100, sm: 120, md: 70 },
-              border: "3px solid #fff",
-              background: "#281b62",
-              position: "absolute",
+              border: '3px solid #fff',
+              background: '#D2DCF6',
+              color: '#3B82F6',
+              position: 'absolute',
               bottom: -40,
-              left: "50%",
-              transform: "translateX(-50%)",
+              left: '50%',
+              transform: 'translateX(-50%)',
               fontSize: { xs: 40, sm: 50, md: 45 },
               fontWeight: { xs: 400, sm: 500, md: 800 },
               boxShadow: 3,
             }}
           >
-            {agent.username?.charAt(0).toUpperCase() || "-"}
+            {agent.username?.charAt(0).toUpperCase() || '-'}
           </Avatar>
         </Box>
 
         <Box
           sx={{
             mt: 5,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <Typography
@@ -149,24 +150,24 @@ export default function AgentDetails() {
             fontWeight="bold"
             sx={{
               mt: 1,
-              color: "#222",
-              fontSize: { xs: "1.5rem", sm: "2rem", md: "2rem" },
+              color: '#222',
+              fontSize: { xs: '1.5rem', sm: '2rem', md: '2rem' },
             }}
           >
-            {agent.username?.charAt(0).toUpperCase() + agent.username?.slice(1) || "-"}
+            {agent.username?.charAt(0).toUpperCase() + agent.username?.slice(1) || '-'}
           </Typography>
           <Box
             sx={{
               my: 1,
               px: 2,
               py: 0.5,
-              background: "#e3f0fc",
-              borderRadius: "20px",
-              display: "inline-block",
+              background: '#e3f0fc',
+              borderRadius: '20px',
+              display: 'inline-block',
             }}
           >
-            <Typography variant="body1" sx={{ color: "#1976d2", fontWeight: 600 }}>
-              {agent.role || "Agent"}
+            <Typography variant="body1" sx={{ color: '#1976d2', fontWeight: 600 }}>
+              {agent.role || 'Agent'}
             </Typography>
           </Box>
         </Box>
@@ -182,25 +183,25 @@ export default function AgentDetails() {
               sx={{
                 p: 3,
                 borderRadius: 3,
-                background: "#fff",
-                height: "100%",
+                background: '#fff',
+                height: '100%',
               }}
             >
               <Typography variant="subtitle1" fontWeight="bold" gutterBottom align="start">
                 Personal Details
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -212,17 +213,17 @@ export default function AgentDetails() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -234,17 +235,17 @@ export default function AgentDetails() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -256,17 +257,17 @@ export default function AgentDetails() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -278,17 +279,17 @@ export default function AgentDetails() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -300,17 +301,17 @@ export default function AgentDetails() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -322,17 +323,17 @@ export default function AgentDetails() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -353,25 +354,25 @@ export default function AgentDetails() {
               sx={{
                 p: 3,
                 borderRadius: 3,
-                background: "#fff",
-                height: "100%",
+                background: '#fff',
+                height: '100%',
               }}
             >
               <Typography variant="subtitle1" fontWeight="bold" gutterBottom align="start">
                 Address & Provider info
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -382,17 +383,17 @@ export default function AgentDetails() {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -403,17 +404,17 @@ export default function AgentDetails() {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -424,17 +425,17 @@ export default function AgentDetails() {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -445,17 +446,17 @@ export default function AgentDetails() {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
                       p: 2,
                       borderRadius: 2,
                       boxShadow: 3,
-                      height: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -466,7 +467,7 @@ export default function AgentDetails() {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
@@ -475,9 +476,9 @@ export default function AgentDetails() {
                       borderRadius: 2,
                       boxShadow: 3,
                       // height: "85px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -488,7 +489,7 @@ export default function AgentDetails() {
                     />
                   </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: "100%" }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} sx={{ height: '100%' }}>
                   <Card
                     elevation={3}
                     sx={{
@@ -497,9 +498,9 @@ export default function AgentDetails() {
                       borderRadius: 2,
                       boxShadow: 3,
                       // height: "85px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
                     }}
                   >
                     <DetailRow
@@ -528,29 +529,29 @@ const DetailRow = ({ label, value, icon: Icon, className }) => (
         justifyContent="center"
         alignItems="center"
         sx={{
-          backgroundColor: "#e3f2fd", // light blue background
-          borderRadius: "50%",
+          backgroundColor: '#e3f2fd', // light blue background
+          borderRadius: '50%',
           width: 40,
           height: 40,
         }}
       >
-        <Icon sx={{ color: "#1976d2", fontSize: 24 }} />
+        <Icon sx={{ color: '#1976d2', fontSize: 24 }} />
       </Box>
     </Grid>
 
     {/* Text Column */}
-    <Grid item xs={9} sm={10} md={10} lg={10} sx={{ paddingLeft: "5px" }}>
+    <Grid item xs={9} sm={10} md={10} lg={10} sx={{ marginLeft: '-16px' }}>
       <Typography
         variant="body2"
-        sx={{ color: "#281B62", fontWeight: 500, fontSize: "0.9rem" }} // muted gray label
+        sx={{ color: '#374151', fontWeight: 500, fontSize: '0.9rem' }} // muted gray label
       >
         {label}
       </Typography>
       <Typography
         variant="subtitle1"
-        sx={{ fontWeight: 600, color: "#000", fontSize: "1rem" }} // value with bold black
+        sx={{ fontWeight: 600, color: '#000', fontSize: '1rem' }} // value with bold black
       >
-        {value || "-"}
+        {value || '-'}
       </Typography>
     </Grid>
   </Grid>

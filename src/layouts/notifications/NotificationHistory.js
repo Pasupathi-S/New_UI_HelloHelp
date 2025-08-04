@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import dayjs from "dayjs"; // For formatting date
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import dayjs from 'dayjs'; // For formatting date
 
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import Tooltip from "@mui/material/Tooltip";
-import Chip from "@mui/material/Chip";
-import PropTypes from "prop-types";
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import Tooltip from '@mui/material/Tooltip';
+import Chip from '@mui/material/Chip';
+import PropTypes from 'prop-types';
 
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import DataTable from "examples/Tables/DataTable";
-import Footer from "examples/Footer";
-import Header from "layouts/profile/components/Header";
-import HistoryIcon from "@mui/icons-material/History";
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
+import DataTable from 'examples/Tables/DataTable';
+import Footer from 'examples/Footer';
+import Header from 'layouts/profile/components/Header';
+import HistoryIcon from '@mui/icons-material/History';
 
 function StatusChip({ value }) {
   return (
     <Chip
+      className="table-data-two"
       label={value}
       sx={{
-        backgroundColor: value === "Sent" ? "#e3fde8" : "#fde3e3",
-        color: value === "Sent" ? "#388e3c" : "#d32f2f",
+        backgroundColor: value === 'Sent' ? '#e3fde8' : '#fde3e3',
+        color: value === 'Sent' ? '#388e3c' : '#d32f2f',
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: '8px',
         px: 1,
-        height: "24px",
+        height: '24px',
       }}
     />
   );
@@ -39,7 +40,7 @@ StatusChip.propTypes = {
 
 function RecipientsCell({ value }) {
   return (
-    <Tooltip title={value.join(", ")}>
+    <Tooltip title={value.join(', ')}>
       <span>{value.length} user(s)</span>
     </Tooltip>
   );
@@ -52,7 +53,7 @@ RecipientsCell.propTypes = {
 function MessageCell({ value }) {
   return (
     <Tooltip title={value}>
-      <span>{value.length > 30 ? value.slice(0, 30) + "..." : value}</span>
+      <span>{value.length > 30 ? value.slice(0, 30) + '...' : value}</span>
     </Tooltip>
   );
 }
@@ -67,9 +68,9 @@ function NotificationHistory() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const token = localStorage.getItem("token"); // 🔐 Get token from localStorage
+        const token = localStorage.getItem('token'); // 🔐 Get token from localStorage
         const response = await axios.get(
-          "https://lemonpeak-hellohelp-backend.onrender.com/api/admin/notification-history",
+          'https://lemonpeak-hellohelp-backend.onrender.com/api/admin/notification-history',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -78,24 +79,24 @@ function NotificationHistory() {
         );
 
         const transformed = response.data.map((n) => {
-          console.log("Notification data:", n);
+          console.log('Notification data:', n);
           return {
             id: n.id,
-            campaignId: n.campaign_id || "-",
-            date: dayjs(n.sent_at).format("DD-MM-YYYY hh:mm A"),
+            campaignId: n.campaign_id || '-',
+            date: dayjs(n.sent_at).format('DD-MM-YYYY hh:mm A'),
             userid: n.user_id,
             username: n.username.charAt(0).toUpperCase() + n.username.slice(1),
             recipients: [n.username],
             title: n.title,
             message: n.body,
-            offerCode: n.data?.offer_code || "-",
-            status: n.status === "success" ? "Sent" : "Failed",
+            offerCode: n.data?.offer_code || '-',
+            status: n.status === 'success' ? 'Sent' : 'Failed',
           };
         });
 
         setNotifications(transformed);
       } catch (error) {
-        console.error("Error fetching notifications:", error);
+        console.error('Error fetching notifications:', error);
       }
     };
 
@@ -118,16 +119,16 @@ function NotificationHistory() {
                   px={2}
                   variant="gradient"
                   sx={{
-                    background: "#281b62", // gradient using your color
-                    color: "white", // or any readable color
+                    background: '#1D4ED8', // gradient using your color
+                    color: 'white', // or any readable color
                     fontWeight: 600,
-                    boxShadow: "none", // custom shadow to match color
+                    boxShadow: 'none', // custom shadow to match color
                   }}
                   borderRadius="lg"
                   coloredShadow="info"
                 >
                   <MDTypography variant="h6" fontWeight="bold" color="white">
-                    <HistoryIcon sx={{ verticalAlign: "middle", mr: 1 }} fontSize="medium" />
+                    <HistoryIcon sx={{ verticalAlign: 'middle', mr: 1 }} fontSize="medium" />
                     Notification History
                   </MDTypography>
                 </MDBox>
@@ -135,48 +136,41 @@ function NotificationHistory() {
                   <DataTable
                     table={{
                       columns: [
-                        {
-                          Header: () => <span style={{ marginRight: "30px" }}>Id</span>,
-                          accessor: "id",
-                        },
+                        // {
+                        //   Header: () => <span style={{ marginRight: '30px' }}>Id</span>,
+                        //   accessor: 'id',
+                        // },
                         {
                           Header: () => <span>Date & Time</span>,
-                          accessor: "date",
+                          accessor: 'date',
                         },
 
                         {
-                          Header: () => <span style={{ marginRight: "30px" }}>Campaign Id</span>,
-                          accessor: "campaignId",
+                          Header: () => <span style={{ marginRight: '30px' }}>Campaign Id</span>,
+                          accessor: 'campaignId',
+                        },
+                        // {
+                        //   Header: () => <span style={{ marginRight: '30px' }}>User Id</span>,
+                        //   accessor: 'userid',
+                        // },
+                        {
+                          Header: () => <span style={{ marginRight: '30px' }}>User Name</span>,
+                          accessor: 'username',
+                        },
+
+                        {
+                          Header: () => <span style={{ marginRight: '30px' }}>Title</span>,
+                          accessor: 'title',
                         },
                         {
-                          Header: () => <span style={{ marginRight: "30px" }}>User Id</span>,
-                          accessor: "userid",
-                        },
-                        {
-                          Header: () => <span style={{ marginRight: "30px" }}>User Name</span>,
-                          accessor: "username",
-                        },
-                        {
-                          Header: () => <span style={{ marginRight: "30px" }}>Recipients</span>,
-                          accessor: "recipients",
-                          Cell: RecipientsCell,
-                        },
-                        {
-                          Header: () => <span style={{ marginRight: "30px" }}>Title</span>,
-                          accessor: "title",
-                        },
-                        {
-                          Header: () => <span style={{ marginRight: "30px" }}>Message</span>,
-                          accessor: "message",
+                          Header: () => <span style={{ marginRight: '30px' }}>Message</span>,
+                          accessor: 'message',
                           Cell: MessageCell,
                         },
-                        {
-                          Header: () => <span style={{ marginRight: "30px" }}>Offer Code</span>,
-                          accessor: "offerCode",
-                        },
+
                         {
                           Header: () => <span>Status</span>,
-                          accessor: "status",
+                          accessor: 'status',
                           Cell: StatusChip,
                         },
                       ],

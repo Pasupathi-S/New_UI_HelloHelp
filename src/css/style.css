@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: 'Archivo';
+}
+.header {
+  font-weight: 600 !important;
+  color: #374151 !important;
+  font-size: 24px !important;
+  text-align: center !important;
+  padding-top: 30px !important;
+}
+.label {
+  font-weight: 500 !important;
+  color: RGB(55, 65, 81);
+  font-size: 16px !important;
+}
+.error-msg {
+  font-weight: 500 !important;
+  color: #d32f2f !important;
+  font-size: 16px !important;
+}
 @media (min-width: 768px) and (max-width: 1199px) {
   .css-aim41u {
     padding-left: 300px !important;
@@ -18,4 +40,32 @@
 .css-1nos2st,
 .css-15jcv17 {
   padding: 5px 24px !important;
+}
+.table-head {
+  font-weight: 600 !important;
+  color: #374151 !important;
+  font-size: 15px !important;
+}
+.table-data {
+  font-weight: 500 !important;
+  color: #111827 !important;
+  font-size: 14px !important;
+}
+.table-data-two {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+.entries-per-page {
+  font-weight: 500 !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  margin-left: 10px !important;
+}
+.css-14vuux3-MuiTypography-root,
+.css-hyonic-MuiTypography-root,
+.css-iu88pn-MuiTypography-root,
+.css-1too39a-MuiTypography-root {
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  color: #374151 !important;
 }

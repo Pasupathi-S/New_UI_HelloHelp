@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import Chip from "@mui/material/Chip";
-import { Stack } from "@mui/material";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-import PropTypes from "prop-types";
-import CallIcon from "@mui/icons-material/Call";
+import React, { useEffect, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import Icon from '@mui/material/Icon';
+import Chip from '@mui/material/Chip';
+import { Stack } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import CallIcon from '@mui/icons-material/Call';
 
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
-import DataTable from "examples/Tables/DataTable";
-import { Tooltip, IconButton } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
+import MDButton from 'components/MDButton';
+import DataTable from 'examples/Tables/DataTable';
+import { Tooltip, IconButton } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // Reusable Chips
 
 function CallTypeChip({ value }) {
   return (
     <Chip
+      className="table-data-two"
       label={value.charAt(0).toUpperCase() + value.slice(1)}
       sx={{
-        backgroundColor: value === "audio" ? "#e3f0fc" : "#f3e8fd",
-        color: value === "audio" ? "#1976d2" : "#9c27b0",
+        backgroundColor: value === 'audio' ? '#e3f0fc' : '#f3e8fd',
+        color: value === 'audio' ? '#1976d2' : '#9c27b0',
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: '8px',
         px: 1,
         py: 0,
-        height: "24px",
+        height: '24px',
       }}
     />
   );
@@ -41,16 +42,17 @@ CallTypeChip.propTypes = {
 function StatusChip({ value }) {
   return (
     <Chip
+      className="table-data-two"
       label={value.charAt(0).toUpperCase() + value.slice(1)}
       sx={{
         backgroundColor:
-          value === "accepted" ? "#e3fde8" : value === "initiated" ? "#fff5d3" : "#fde3e3",
-        color: value === "accepted" ? "#388e3c" : value === "initiated" ? "#fbc02d" : "#d32f2f",
+          value === 'accepted' ? '#e3fde8' : value === 'initiated' ? '#fff5d3' : '#fde3e3',
+        color: value === 'accepted' ? '#388e3c' : value === 'initiated' ? '#fbc02d' : '#d32f2f',
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: '8px',
         px: 1,
         py: 0,
-        height: "24px",
+        height: '24px',
       }}
     />
   );
@@ -62,9 +64,10 @@ StatusChip.propTypes = {
 function IdChip({ value }) {
   return (
     <Chip
+      className="table-data"
       label={value}
       sx={{
-        backgroundColor: "#ffffff",
+        backgroundColor: '#ffffff',
         py: 0,
       }}
     />
@@ -75,11 +78,14 @@ IdChip.propTypes = {
 };
 
 function CallerChip({ value }) {
+  console.log('value in CallerChip:', value);
+
   return (
     <Chip
+      className="table-data"
       label={value}
       sx={{
-        backgroundColor: "#ffffff",
+        backgroundColor: '#ffffff',
         px: 1.5,
         py: 0,
       }}
@@ -89,13 +95,34 @@ function CallerChip({ value }) {
 CallerChip.propTypes = {
   value: PropTypes.string.isRequired,
 };
+function CallerName({ value }) {
+  console.log('value in name:', value);
 
-function ReceiverChip({ value }) {
   return (
     <Chip
-      label={value}
+      className="table-data"
+      label={value.charAt(0).toUpperCase() + value.slice(1)}
       sx={{
-        backgroundColor: "#ffffff",
+        backgroundColor: '#ffffff',
+        px: 1.5,
+        py: 0,
+      }}
+    />
+  );
+}
+CallerName.propTypes = {
+  value: PropTypes.string.isRequired,
+};
+
+function ReceiverChip({ value }) {
+  console.log('value in ReceiverChip:', value);
+  const displayReceiverValue = !value || value === 'null' ? 'Unknown' : value;
+  return (
+    <Chip
+      className="table-data"
+      label={displayReceiverValue}
+      sx={{
+        backgroundColor: '#ffffff',
         px: 3.5,
         py: 0,
       }}
@@ -105,20 +132,43 @@ function ReceiverChip({ value }) {
 ReceiverChip.propTypes = {
   value: PropTypes.string.isRequired,
 };
+function ReceiverName({ value }) {
+  console.log('value in name:', value);
 
-function DeviceTypeChip({ row }) {
-  const device = row.original?.metadata?.device || "-";
+  const displayValue =
+    !value || value === 'null' ? 'Unknown' : value.charAt(0).toUpperCase() + value.slice(1);
+
   return (
     <Chip
+      className="table-data"
+      label={displayValue}
+      sx={{
+        backgroundColor: '#ffffff',
+        px: 1.5,
+        py: 0,
+      }}
+    />
+  );
+}
+
+ReceiverName.propTypes = {
+  value: PropTypes.string,
+};
+
+function DeviceTypeChip({ row }) {
+  const device = row.original?.metadata?.device || '-';
+  return (
+    <Chip
+      className="table-data-two"
       label={device}
       sx={{
-        backgroundColor: "#ede7f6",
-        color: "#5e35b1",
+        backgroundColor: '#ede7f6',
+        color: '#5e35b1',
         fontWeight: 500,
-        borderRadius: "8px",
+        borderRadius: '8px',
         px: 1,
         py: 0,
-        height: "24px",
+        height: '24px',
       }}
     />
   );
@@ -140,7 +190,7 @@ function ActionButton({ row }) {
         <IconButton
           component={Link}
           to={`/CallDetails/${row.original.id}`}
-          sx={{ color: "#181313", "&:hover": { color: "#181313" } }}
+          sx={{ color: '#181313', '&:hover': { color: '#181313' } }}
           size="small"
         >
           <VisibilityIcon fontSize="small" />
@@ -156,6 +206,16 @@ ActionButton.propTypes = {
     }).isRequired,
   }).isRequired,
 };
+function DateCell({ value }) {
+  const date = new Date(value);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return <span className="table-data">{`${day}-${month}-${year}`}</span>;
+}
+DateCell.propTypes = {
+  value: PropTypes.string.isRequired,
+};
 
 // Main Component
 
@@ -165,14 +225,14 @@ export default function CallHistory() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (!token) {
       setCallLogs([]);
       setLoading(false);
       return;
     }
     axios
-      .get("https://lemonpeak-hellohelp-backend.onrender.com/api/call/call-logs", {
+      .get('https://lemonpeak-hellohelp-backend.onrender.com/api/call/call-logs', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -198,16 +258,16 @@ export default function CallHistory() {
               px={2}
               variant="gradient"
               sx={{
-                background: "#281b62",
-                color: "white",
+                background: '#1D4ED8',
+                color: 'white',
                 fontWeight: 600,
-                boxShadow: "none",
+                boxShadow: 'none',
               }}
               borderRadius="lg"
               coloredShadow="info"
             >
               <MDTypography variant="h6" fontWeight="bold" color="white">
-                <CallIcon sx={{ verticalAlign: "middle", mr: 1 }} fontSize="medium" />
+                <CallIcon sx={{ verticalAlign: 'middle', mr: 1 }} fontSize="medium" />
                 Call History
               </MDTypography>
             </MDBox>
@@ -215,38 +275,72 @@ export default function CallHistory() {
               <DataTable
                 table={{
                   columns: [
-                    { Header: "ID", accessor: "id", Cell: IdChip },
+                    // { Header: 'ID', accessor: 'id', Cell: IdChip },
+                    { Header: 'Date', accessor: 'started_at', Cell: DateCell },
+
+                    { Header: 'Caller ID', accessor: 'caller_id', Cell: CallerChip },
                     {
-                      Header: "Date",
-                      accessor: "started_at",
-                      Cell: ({ value }) => {
-                        const date = new Date(value);
-                        const day = String(date.getDate()).padStart(2, "0");
-                        const month = String(date.getMonth() + 1).padStart(2, "0");
-                        const year = date.getFullYear();
-                        return `${day}-${month}-${year}`;
-                      },
+                      Header: () => (
+                        <MDBox
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            minWidth: '130px',
+                            maxWidth: '150px',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          Caller Name
+                        </MDBox>
+                      ),
+                      accessor: 'caller_name',
+                      Cell: CallerName,
+                    },
+                    { Header: 'Receiver ID', accessor: 'receiver_id', Cell: ReceiverChip },
+                    {
+                      Header: () => (
+                        <MDBox
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            minWidth: '140px',
+                            maxWidth: '160px',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          Receiver Name
+                        </MDBox>
+                      ),
+                      accessor: 'receiver_name',
+                      Cell: ReceiverName,
                     },
 
-                    { Header: "Caller ID", accessor: "caller_id", Cell: CallerChip },
-                    { Header: "Receiver ID", accessor: "receiver_id", Cell: ReceiverChip },
-                    { Header: "Call Type", accessor: "call_type", Cell: CallTypeChip },
-                    { Header: "Request", accessor: "status", Cell: StatusChip },
-                    { Header: "Meeting Call ID", accessor: "meeting_call_id" },
-                    {
-                      Header: "Device Type",
-                      accessor: "device_type",
-                      Cell: DeviceTypeChip,
-                      sortType: (a, b) => {
-                        const deviceA = a.original.metadata?.device || "";
-                        const deviceB = b.original.metadata?.device || "";
-                        return deviceA.localeCompare(deviceB);
-                      },
-                    },
+                    { Header: 'Call Type', accessor: 'call_type', Cell: CallTypeChip },
+                    { Header: 'Request', accessor: 'status', Cell: StatusChip },
+                    // {
+                    //   Header: () => <span className="table-head">Meeting Call ID</span>,
+                    //   accessor: 'meeting_call_id',
+                    // },
+                    // {
+                    //   Header: () => <MDBox sx={{ mr: 3 }}>Device Type</MDBox>,
+                    //   accessor: 'device_type',
+                    //   Cell: DeviceTypeChip,
+                    //   sortType: (a, b) => {
+                    //     const deviceA = a.original.metadata?.device || '';
+                    //     const deviceB = b.original.metadata?.device || '';
+                    //     return deviceA.localeCompare(deviceB);
+                    //   },
+                    // },
                     {
                       Header: () => <MDBox sx={{ mr: 3 }}>Action</MDBox>,
-                      accessor: "actions",
-                      width: "50px",
+                      accessor: 'actions',
+                      width: '50px',
                       Cell: ActionButton,
                     },
                   ],

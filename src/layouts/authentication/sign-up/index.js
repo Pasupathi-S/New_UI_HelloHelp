@@ -1,22 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
-import Card from "@mui/material/Card";
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
-import CoverLayout from "layouts/authentication/components/CoverLayout";
-import bgImage from "assets/images/bg-sign-up-cover.jpeg";
-import React, { useState } from "react";
-import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
+import MDInput from 'components/MDInput';
+import MDButton from 'components/MDButton';
+import CoverLayout from 'layouts/authentication/components/CoverLayout';
+import bgImage from 'assets/images/bg-sign-up-cover.jpeg';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function Cover() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    phone: "",
-    password: "",
+    username: '',
+    email: '',
+    phone: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -32,13 +32,13 @@ function Cover() {
     const { username, email, phone, password } = formData;
 
     if (!username || !email || !phone || !password) {
-      alert("Please fill all fields.");
+      alert('Please fill all fields.');
       return;
     }
 
     try {
       const response = await axios.post(
-        "https://lemonpeak-hellohelp-backend.onrender.com/api/auth/register",
+        'https://lemonpeak-hellohelp-backend.onrender.com/api/auth/register',
         {
           username,
           email,
@@ -47,21 +47,21 @@ function Cover() {
         }
       );
 
-      alert("Registration successful!");
-      navigate("/authentication/sign-in");
+      alert('Registration successful!');
+      navigate('/authentication/sign-in');
     } catch (error) {
       // Detailed error logging for debugging
-      console.error("Registration failed:", error);
+      console.error('Registration failed:', error);
       if (error.response) {
         alert(
           error.response.data?.message ||
             JSON.stringify(error.response.data) ||
-            "Registration failed. Please try again later."
+            'Registration failed. Please try again later.'
         );
       } else if (error.request) {
-        alert("No response from server. Please check your network.");
+        alert('No response from server. Please check your network.');
       } else {
-        alert("Error: " + error.message);
+        alert('Error: ' + error.message);
       }
     }
   };
@@ -140,7 +140,7 @@ function Cover() {
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
-                Already have an account?{" "}
+                Already have an account?{' '}
                 <MDTypography
                   component={Link}
                   to="/authentication/sign-in"

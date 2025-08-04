@@ -14,46 +14,48 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Grid from "@mui/material/Grid";
-import { Card, CardContent, LinearProgress, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import Grid from '@mui/material/Grid';
+import { Card, CardContent, LinearProgress, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from 'components/MDBox';
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-import PeopleIcon from "@mui/icons-material/People";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import PhoneIcon from "@mui/icons-material/Phone";
-import VideocamIcon from "@mui/icons-material/Videocam";
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
+import Footer from 'examples/Footer';
+import ComplexStatisticsCard from 'examples/Cards/StatisticsCards/ComplexStatisticsCard';
+import PeopleIcon from '@mui/icons-material/People';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PhoneIcon from '@mui/icons-material/Phone';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PersonIcon from '@mui/icons-material/Person';
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
+import Projects from 'layouts/dashboard/components/Projects';
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
   const [stats, setStats] = useState([
     {
-      title: "Total Agents",
-      value: "-",
-      change: "",
+      title: 'Total Agents',
+      value: '-',
+      change: '',
       icon: <PeopleIcon />,
       progressValue: 0,
-      progressColor: "#000E29",
+      progressColor: '#000E29',
     },
     {
-      title: "Total Customers",
-      value: "-",
-      change: "",
+      title: 'Total Customers',
+      value: '-',
+      change: '',
       icon: <PersonAddIcon />,
       progressValue: 0,
-      progressColor: "#000E29",
+      progressColor: '#000E29',
     },
     // {
     //   title: "Audio Calls",
@@ -64,50 +66,51 @@ function Dashboard() {
     //   progressColor: "#000E29",
     // },
     {
-      title: "Video Calls",
-      value: "-",
-      change: "",
+      title: 'Video Calls',
+      value: '-',
+      change: '',
       icon: <VideocamIcon />,
       progressValue: 0,
-      progressColor: "#000E29",
+      progressColor: '#000E29',
     },
-    // {
-    //   title: "One Day Customer List",
-    //   value: "-",
-    //   change: "",
-    //   icon: <VideocamIcon />,
-    //   progressValue: 0,
-    //   progressColor: "#000E29",
-    // },
+    {
+      title: 'One Day Customer Count',
+      value: '-',
+      change: '',
+      icon: <AccessTimeIcon />,
+
+      progressValue: 0,
+      progressColor: '#000E29',
+    },
   ]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     axios
-      .get("https://lemonpeak-hellohelp-backend.onrender.com/api/call/dashboard-stats", {
+      .get('https://lemonpeak-hellohelp-backend.onrender.com/api/call/dashboard-stats', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
         // Adjust this mapping based on your actual API response structure
         const data = res.data;
-        console.log("Dashboard Stats Data:", data); // Log the data for debugging
+        console.log('Dashboard Stats Data:', data); // Log the data for debugging
 
         setStats([
           {
-            title: "Total Agents",
-            value: data.agents ?? "-",
-            change: data.agents_change ?? "",
+            title: 'Total Agents',
+            value: data.agents ?? '-',
+            change: data.agents_change ?? '',
             icon: <PeopleIcon />,
             progressValue: data.agents_progress ?? 0,
-            progressColor: "primary",
+            progressColor: 'primary',
           },
           {
-            title: "Total Customers",
-            value: data.customers ?? "-",
-            change: data.customers_change ?? "",
+            title: 'Total Customers',
+            value: data.customers ?? '-',
+            change: data.customers_change ?? '',
             icon: <PersonAddIcon />,
             progressValue: data.customers_progress ?? 0,
-            progressColor: "warning",
+            progressColor: 'warning',
           },
           // {
           //   title: "Audio Calls",
@@ -118,21 +121,21 @@ function Dashboard() {
           //   progressColor: "info",
           // },
           {
-            title: "Video Calls",
-            value: data.video_calls ?? "-",
-            change: data.video_calls_change ?? "",
+            title: 'Video Calls',
+            value: data.video_calls ?? '-',
+            change: data.video_calls_change ?? '',
             icon: <VideocamIcon />,
             progressValue: data.video_calls_progress ?? 0,
-            progressColor: "success",
+            progressColor: 'success',
           },
-          // {
-          //   title: "One Day Customer List",
-          //   value: data.video_calls ?? "-",
-          //   change: data.video_calls_change ?? "",
-          //   icon: <VideocamIcon />,
-          //   progressValue: data.video_calls_progress ?? 0,
-          //   progressColor: "success",
-          // },
+          {
+            title: 'One Day Customer Count',
+            value: data.customers_created_yesterday ?? '-',
+            // change: data.video_calls_change ?? '',
+            icon: <AccessTimeIcon />,
+            // progressValue: data.video_calls_progress ?? 0,
+            // progressColor: 'success',
+          },
         ]);
       })
       .catch(() => {
@@ -155,7 +158,7 @@ function Dashboard() {
                     percentage={{
                       color: stat.progressColor,
                       amount: stat.change,
-                      label: "",
+                      label: '',
                     }}
                     icon={stat.icon}
                     progressValue={stat.progressValue}

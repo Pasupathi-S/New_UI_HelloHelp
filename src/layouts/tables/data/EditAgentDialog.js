@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -7,10 +7,12 @@ import {
   Button,
   TextField,
   Stack,
-} from "@mui/material";
-import axios from "axios";
-import MDButton from "components/MDButton";
-import PropTypes from "prop-types";
+} from '@mui/material';
+import axios from 'axios';
+import MDButton from 'components/MDButton';
+import PropTypes from 'prop-types';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const EditAgentDialog = ({ open, agent, onClose, onUpdate }) => {
   const [formData, setFormData] = React.useState(agent || {});
@@ -29,26 +31,26 @@ const EditAgentDialog = ({ open, agent, onClose, onUpdate }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     try {
       const response = await axios.patch(
-        "https://lemonpeak-hellohelp-backend.onrender.com/api/admin/admin-update-user-profile",
+        'https://lemonpeak-hellohelp-backend.onrender.com/api/admin/admin-update-user-profile',
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         }
       );
 
-      if (response.data?.message === "Profile updated successfully") {
+      if (response.data?.message === 'Profile updated successfully') {
         onUpdate(formData);
         onClose();
       }
     } catch (error) {
-      console.error("Error updating agent:", error);
+      console.error('Error updating agent:', error);
     } finally {
       setLoading(false);
     }
@@ -56,46 +58,65 @@ const EditAgentDialog = ({ open, agent, onClose, onUpdate }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Edit Agent</DialogTitle>
+      <DialogTitle
+        sx={{
+          m: 0,
+          p: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        Edit Agent
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent dividers>
         <Stack spacing={2} mt={2}>
           <TextField
             label="First Name"
             name="username"
-            value={formData.username || ""}
+            value={formData.username || ''}
             fullWidth
             onChange={handleChange}
           />
           <TextField
             label="Last Name"
             name="user_lastname"
-            value={formData.user_lastname || ""}
+            value={formData.user_lastname || ''}
             fullWidth
             onChange={handleChange}
           />
           <TextField
             label="Email"
             name="email"
-            value={formData.email || ""}
+            value={formData.email || ''}
             fullWidth
             onChange={handleChange}
           />
           <TextField
             label="Phone"
             name="phone"
-            value={formData.phone || ""}
+            value={formData.phone || ''}
             fullWidth
             onChange={handleChange}
           />
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="secondary" variant="contained" sx={{ color: "#fff" }}>
+        <Button onClick={onClose} color="secondary" variant="contained" sx={{ color: '#fff' }}>
           Cancel
         </Button>
 
         <MDButton onClick={handleSubmit} color="info" disabled={loading}>
-          {loading ? "Saving..." : "Save Changes"}
+          {loading ? 'Saving...' : 'Save Changes'}
         </MDButton>
       </DialogActions>
     </Dialog>

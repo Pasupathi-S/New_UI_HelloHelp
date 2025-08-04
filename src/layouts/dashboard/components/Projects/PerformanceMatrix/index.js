@@ -1,48 +1,48 @@
-import React from "react";
-import { Box, Card, CardContent, Typography, Grid } from "@mui/material";
-import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
-import CircularProgress from "@mui/material/CircularProgress";
+import React from 'react';
+import { Box, Card, CardContent, Typography, Grid } from '@mui/material';
+import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const metrics = [
   {
-    label: "First Response",
-    value: "45s",
+    label: 'First Response',
+    value: '45s',
     progress: 90,
-    trend: "+12%",
-    trendIcon: <ArrowDropUp fontSize="small" sx={{ color: "green" }} />,
-    trendColor: "green",
-    target: "< 60s",
-    ringColor: "#2e7d32",
+    trend: '+12%',
+    trendIcon: <ArrowDropUp fontSize="small" sx={{ color: 'green' }} />,
+    trendColor: 'green',
+    target: '< 60s',
+    ringColor: '#2e7d32',
   },
   {
-    label: "Resolution Time",
-    value: "4.2m",
+    label: 'Resolution Time',
+    value: '4.2m',
     progress: 85,
-    trend: "+8%",
-    trendIcon: <ArrowDropUp fontSize="small" sx={{ color: "green" }} />,
-    trendColor: "green",
-    target: "< 5m",
-    ringColor: "#2e7d32",
+    trend: '+8%',
+    trendIcon: <ArrowDropUp fontSize="small" sx={{ color: 'green' }} />,
+    trendColor: 'green',
+    target: '< 5m',
+    ringColor: '#2e7d32',
   },
   {
-    label: "Customer Sat.",
-    value: "94%",
+    label: 'Customer Sat.',
+    value: '94%',
     progress: 94,
-    trend: "+2%",
-    trendIcon: <ArrowDropUp fontSize="small" sx={{ color: "green" }} />,
-    trendColor: "green",
-    target: "≥ 90%",
-    ringColor: "#2e7d32",
+    trend: '+2%',
+    trendIcon: <ArrowDropUp fontSize="small" sx={{ color: 'green' }} />,
+    trendColor: 'green',
+    target: '≥ 90%',
+    ringColor: '#2e7d32',
   },
   {
-    label: "Call Drop Rate",
-    value: "3.5%",
+    label: 'Call Drop Rate',
+    value: '3.5%',
     progress: 65,
-    trend: "-0.5%",
-    trendIcon: <ArrowDropDown fontSize="small" sx={{ color: "red" }} />,
-    trendColor: "red",
-    target: "< 3%",
-    ringColor: "#fb8c00",
+    trend: '-0.5%',
+    trendIcon: <ArrowDropDown fontSize="small" sx={{ color: 'red' }} />,
+    trendColor: 'red',
+    target: '< 3%',
+    ringColor: '#fb8c00',
   },
 ];
 

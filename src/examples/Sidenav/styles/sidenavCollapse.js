@@ -29,25 +29,25 @@ function collapseItem(theme, ownerState) {
       (transparentSidenav && !darkMode && !active) || (whiteSidenav && !active)
         ? dark.main
         : white.main,
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
     padding: `${pxToRem(8)} ${pxToRem(10)}`,
     margin: `${pxToRem(1.5)} ${pxToRem(16)}`,
     borderRadius: borderRadius.md,
     // cursor: "pointer",
-    userSelect: "none",
-    whiteSpace: "nowrap",
-    boxShadow: active && !whiteSidenav && !darkMode && !transparentSidenav ? md : "none",
-    [breakpoints.up("xl")]: {
-      transition: transitions.create(["box-shadow", "background-color"], {
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
+    boxShadow: active && !whiteSidenav && !darkMode && !transparentSidenav ? md : 'none',
+    [breakpoints.up('xl')]: {
+      transition: transitions.create(['box-shadow', 'background-color'], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.shorter,
       }),
     },
 
-    "&:hover, &:focus": {
-      backgroundColor: "#1E3A8A",
+    '&:hover, &:focus': {
+      backgroundColor: '#1E3A8A',
       //  () => {
       //   if (!active) {
       //     if (transparentSidenav && !darkMode) {
@@ -80,14 +80,14 @@ function collapseIconBox(theme, ownerState) {
         ? dark.main
         : white.main,
     borderRadius: borderRadius.md,
-    display: "grid",
-    placeItems: "center",
-    transition: transitions.create("margin", {
+    display: 'grid',
+    placeItems: 'center',
+    transition: transitions.create('margin', {
       easing: transitions.easing.easeInOut,
       duration: transitions.duration.standard,
     }),
 
-    "& svg, svg g": {
+    '& svg, svg g': {
       color: transparentSidenav || whiteSidenav ? dark.main : white.main,
     },
   };
@@ -107,17 +107,17 @@ function collapseText(theme, ownerState) {
   return {
     marginLeft: pxToRem(10),
 
-    [breakpoints.up("xl")]: {
+    [breakpoints.up('xl')]: {
       opacity: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : 1,
-      maxWidth: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : "100%",
+      maxWidth: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : '100%',
       marginLeft: miniSidenav || (miniSidenav && transparentSidenav) ? 0 : pxToRem(10),
-      transition: transitions.create(["opacity", "margin"], {
+      transition: transitions.create(['opacity', 'margin'], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.standard,
       }),
     },
 
-    "& span": {
+    '& span': {
       fontWeight: active ? fontWeightRegular : fontWeightLight,
       fontSize: size.sm,
       lineHeight: 0,

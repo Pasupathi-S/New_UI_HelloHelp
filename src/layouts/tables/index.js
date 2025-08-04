@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
-import DataTable from "examples/Tables/DataTable";
-import CustomerList from "layouts/tables/data/CustomerList";
-import AgentList from "layouts/tables/data/AgentList";
-import AddIcon from "@mui/icons-material/Add";
-import { Dialog, DialogTitle, Box } from "@mui/material";
-import MDButton from "components/MDButton";
-import AddAgent from "layouts/tables/data/AddAgent";
-import MuiAlert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
-import GroupIcon from "@mui/icons-material/Group";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import React, { useState } from 'react';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
+import Footer from 'examples/Footer';
+import DataTable from 'examples/Tables/DataTable';
+import CustomerList from 'layouts/tables/data/CustomerList';
+import AgentList from 'layouts/tables/data/AgentList';
+import AddIcon from '@mui/icons-material/Add';
+import { Dialog, DialogTitle, Box } from '@mui/material';
+import MDButton from 'components/MDButton';
+import AddAgent from 'layouts/tables/data/AddAgent';
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import GroupIcon from '@mui/icons-material/Group';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,16 +26,16 @@ function Users() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
 
   const { columns: pColumns, rows: pRows, editDialog } = CustomerList(fromDate, toDate);
 
   const [form, setForm] = useState({
-    username: "",
-    email: "",
-    phone: "",
-    password: "",
+    username: '',
+    email: '',
+    phone: '',
+    password: '',
     is_agent: true,
   });
 
@@ -44,7 +44,7 @@ function Users() {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setSnackbarOpen(false);
@@ -64,10 +64,10 @@ function Users() {
                 px={2}
                 variant="gradient"
                 sx={{
-                  background: "#281b62",
-                  color: "white",
+                  background: '#1D4ED8',
+                  color: 'white',
                   fontWeight: 600,
-                  boxShadow: "none",
+                  boxShadow: 'none',
                 }}
                 borderRadius="lg"
                 coloredShadow="info"
@@ -76,7 +76,7 @@ function Users() {
                 alignItems="center"
               >
                 <Box display="flex" alignItems="center" gap={1}>
-                  <GroupIcon style={{ color: "white" }} fontSize="medium" />
+                  <GroupIcon style={{ color: 'white' }} fontSize="medium" />
                   <MDTypography variant="h6" fontWeight="bold" color="white">
                     All Agents
                   </MDTypography>
@@ -86,12 +86,12 @@ function Users() {
                   color="white"
                   startIcon={<AddIcon />}
                   onClick={handleOpen}
-                  sx={{ color: "#000E29", fontWeight: 600 }}
+                  sx={{ color: '#000E29', fontWeight: 600 }}
                 >
                   Add Agent
                 </MDButton>
                 <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
-                  <DialogTitle sx={{ textAlign: "center" }}>Add New Agent</DialogTitle>
+                  <DialogTitle sx={{ textAlign: 'center' }}>Add New Agent</DialogTitle>
                   <AddAgent
                     form={form}
                     onChange={handleChange}
@@ -118,16 +118,16 @@ function Users() {
                 px={2}
                 variant="gradient"
                 sx={{
-                  background: "#281b62",
-                  color: "white",
+                  background: '#1D4ED8',
+                  color: 'white',
                   fontWeight: 600,
-                  boxShadow: "none",
+                  boxShadow: 'none',
                 }}
                 borderRadius="lg"
                 coloredShadow="info"
               >
                 <Box display="flex" alignItems="center" gap={1}>
-                  <PersonAddIcon style={{ color: "white" }} fontSize="medium" />
+                  <PersonAddIcon style={{ color: 'white' }} fontSize="medium" />
                   <MDTypography variant="h6" fontWeight="bold" color="white">
                     All Customers
                   </MDTypography>
@@ -150,9 +150,9 @@ function Users() {
                     alignItems="center"
                     gap={1}
                     sx={{
-                      flex: { xs: 1, sm: 1, md: "unset" },
-                      minWidth: { xs: "200px", sm: "200px", md: "unset" },
-                      maxWidth: { xs: "300px", sm: "300px", md: "unset" },
+                      flex: { xs: 1, sm: 1, md: 'unset' },
+                      minWidth: { xs: '200px', sm: '200px', md: 'unset' },
+                      maxWidth: { xs: '300px', sm: '300px', md: 'unset' },
                     }}
                   >
                     <MDTypography variant="body2" fontWeight="medium" whiteSpace="nowrap">
@@ -162,12 +162,12 @@ function Users() {
                       type="date"
                       value={fromDate}
                       onChange={(e) => setFromDate(e.target.value)}
-                      max={new Date().toISOString().split("T")[0]}
+                      max={new Date().toISOString().split('T')[0]}
                       style={{
-                        padding: "8px",
-                        borderRadius: "6px",
-                        border: "1px solid #ccc",
-                        width: "100%",
+                        padding: '8px',
+                        borderRadius: '6px',
+                        border: '1px solid #ccc',
+                        width: '100%',
                       }}
                     />
                   </MDBox>
@@ -177,9 +177,9 @@ function Users() {
                     alignItems="center"
                     gap={1}
                     sx={{
-                      flex: { xs: 1, sm: 1, md: "unset" },
-                      minWidth: { xs: "200px", sm: "200px", md: "unset" },
-                      maxWidth: { xs: "300px", sm: "300px", md: "unset" },
+                      flex: { xs: 1, sm: 1, md: 'unset' },
+                      minWidth: { xs: '200px', sm: '200px', md: 'unset' },
+                      maxWidth: { xs: '300px', sm: '300px', md: 'unset' },
                     }}
                   >
                     <MDTypography variant="body2" fontWeight="medium" whiteSpace="nowrap">
@@ -190,19 +190,19 @@ function Users() {
                         type="date"
                         value={toDate}
                         onChange={(e) => setToDate(e.target.value)}
-                        max={new Date().toISOString().split("T")[0]}
+                        max={new Date().toISOString().split('T')[0]}
                         style={{
-                          padding: "8px",
-                          borderRadius: "6px",
-                          border: "1px solid #ccc",
-                          width: "100%",
+                          padding: '8px',
+                          borderRadius: '6px',
+                          border: '1px solid #ccc',
+                          width: '100%',
                         }}
                       />
                     </Box>
                   </MDBox>
                 </MDBox>
 
-                <MDBox pt={3} sx={{ width: "100%" }}>
+                <MDBox pt={3} sx={{ width: '100%' }}>
                   <DataTable
                     table={{ columns: pColumns, rows: pRows }}
                     isSorted={true}
@@ -226,9 +226,9 @@ function Users() {
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: "100%" }}>
+        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
           Agent Added Successfully
         </Alert>
       </Snackbar>

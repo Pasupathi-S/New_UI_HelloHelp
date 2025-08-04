@@ -14,46 +14,64 @@ Coded by www.creative-tim.com
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 // @mui material components
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Icon from "@mui/material/Icon";
+import Card from '@mui/material/Card';
+import Divider from '@mui/material/Divider';
+import Icon from '@mui/material/Icon';
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
 
 function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
+  console.log(title);
+
   return (
     <Card
       sx={{
-        height: "90px",
+        height: '90px',
       }}
     >
       <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
+        <MDBox textAlign="left" lineHeight={1.45}>
+          <MDTypography
+            variant="button"
+            fontWeight="light"
+            color="text"
+            sx={{ fontSize: '14px', fontWeight: '500', color: '#737373', pb: 1.5 }}
+          >
+            {title}
+          </MDTypography>
+          <MDTypography variant="h4" sx={{ fontSize: '24px', fontWeight: '700', color: '#0A0A0A' }}>
+            {count}
+          </MDTypography>
+        </MDBox>
         <MDBox
-          sx={{ backgroundColor: "#281b62" }}
-          color={color === "light" ? "dark" : "white"}
+          sx={{
+            backgroundColor:
+              title === 'Total Agents'
+                ? '#2460E8'
+                : title === 'Total Customers'
+                ? '#309A46'
+                : title === 'Video Calls'
+                ? '#892BDD'
+                : title === 'One Day Customer Count'
+                ? '#E1530E'
+                : '',
+          }}
+          color={color === 'light' ? 'dark' : 'white'}
           borderRadius="xl"
           display="flex"
           justifyContent="center"
           alignItems="center"
           width="3rem"
           height="3rem"
-          mt={-3}
         >
           <Icon fontSize="medium" color="inherit">
             {icon}
           </Icon>
-        </MDBox>
-
-        <MDBox textAlign="right" lineHeight={1.45}>
-          <MDTypography variant="button" fontWeight="light" color="text">
-            {title}
-          </MDTypography>
-          <MDTypography variant="h4">{count}</MDTypography>
         </MDBox>
       </MDBox>
       {/* <Divider /> */}
@@ -76,38 +94,38 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
 
 // Setting default values for the props of ComplexStatisticsCard
 ComplexStatisticsCard.defaultProps = {
-  color: "info",
+  color: 'info',
   percentage: {
-    color: "success",
-    text: "",
-    label: "",
+    color: 'success',
+    text: '',
+    label: '',
   },
 };
 
 // Typechecking props for the ComplexStatisticsCard
 ComplexStatisticsCard.propTypes = {
   color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "light",
-    "dark",
+    'primary',
+    'secondary',
+    'info',
+    'success',
+    'warning',
+    'error',
+    'light',
+    'dark',
   ]),
   title: PropTypes.string.isRequired,
   count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   percentage: PropTypes.shape({
     color: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "info",
-      "success",
-      "warning",
-      "error",
-      "dark",
-      "white",
+      'primary',
+      'secondary',
+      'info',
+      'success',
+      'warning',
+      'error',
+      'dark',
+      'white',
     ]),
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.string,

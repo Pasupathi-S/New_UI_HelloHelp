@@ -13,52 +13,52 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from 'react';
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 // @mui material components
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import Icon from "@mui/material/Icon";
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Icon from '@mui/material/Icon';
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from 'components/MDBox';
 
 // Material Dashboard 2 React example components
-import Sidenav from "examples/Sidenav";
-import Configurator from "examples/Configurator";
+import Sidenav from 'examples/Sidenav';
+import Configurator from 'examples/Configurator';
 
 // Material Dashboard 2 React themes
-import theme from "assets/theme";
-import themeRTL from "assets/theme/theme-rtl";
+import theme from 'assets/theme';
+import themeRTL from 'assets/theme/theme-rtl';
 
 // Material Dashboard 2 React Dark Mode themes
-import themeDark from "assets/theme-dark";
-import themeDarkRTL from "assets/theme-dark/theme-rtl";
+import themeDark from 'assets/theme-dark';
+import themeDarkRTL from 'assets/theme-dark/theme-rtl';
 
 // RTL plugins
-import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
 // Material Dashboard 2 React routes
-import routes from "routes";
+import routes from 'routes';
 
 // Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from 'context';
 
-import "css/style.css";
+import 'css/style.css';
 // Images
-import brandWhite from "assets/images/logo-ct.png";
-import brandDark from "assets/images/logo-ct-dark.png";
-import logo from "assets/images/app_logo_horrizontal.png";
+import brandWhite from 'assets/images/logo-ct.png';
+import brandDark from 'assets/images/logo-ct-dark.png';
+import logo from 'assets/images/app_logo_horrizontal.png';
 
-import CallDetails from "layouts/billing/components/CallDetails";
-import AgentDetails from "layouts/tables/data/AgentDetails";
-import CustomerDetails from "layouts/tables/data/CustomerDetails";
-import ProtectedRoute from "layouts/components/ProtectedRoute";
+import CallDetails from 'layouts/billing/components/CallDetails';
+import AgentDetails from 'layouts/tables/data/AgentDetails';
+import CustomerDetails from 'layouts/tables/data/CustomerDetails';
+import ProtectedRoute from 'layouts/components/ProtectedRoute';
 // import AdminNotificationPage from "layouts/notifications/AdminNotification";
 
 export default function App() {
@@ -75,14 +75,14 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
-  const publicRoutes = ["/authentication/sign-in", "/authentication/sign-up"];
+  const publicRoutes = ['/authentication/sign-in', '/authentication/sign-up'];
   const [miniSidenav, setMiniSidenav] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   // Cache for the rtl
   useMemo(() => {
     const cacheRtl = createCache({
-      key: "rtl",
+      key: 'rtl',
       stylisPlugins: [rtlPlugin],
     });
 
@@ -117,7 +117,7 @@ export default function App() {
 
   // Setting the dir attribute for the body element
   useEffect(() => {
-    document.body.setAttribute("dir", direction);
+    document.body.setAttribute('dir', direction);
   }, [direction]);
 
   // Setting page scroll to 0 when changing the route
@@ -173,11 +173,11 @@ export default function App() {
     </MDBox>
   );
 
-  return direction === "rtl" ? (
+  return direction === 'rtl' ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
         <CssBaseline />
-        {layout === "dashboard" && (
+        {layout === 'dashboard' && (
           <>
             <Sidenav
               color="#000E29"
@@ -193,7 +193,7 @@ export default function App() {
             {configsButton} */}
           </>
         )}
-        {layout === "vr" && <Configurator />}
+        {layout === 'vr' && <Configurator />}
         <Routes>
           {getRoutes(routes)}
           <Route path="/agent/:id" element={<AgentDetails />} />
@@ -213,7 +213,7 @@ export default function App() {
   ) : (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
+      {layout === 'dashboard' && (
         <>
           <Sidenav
             color="#000E29"

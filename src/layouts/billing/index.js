@@ -14,21 +14,21 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Grid from "@mui/material/Grid";
+import Grid from '@mui/material/Grid';
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from 'components/MDBox';
 
 // Material Dashboard 2 React examples
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
+import Footer from 'examples/Footer';
 // import MasterCard from "examples/Cards/MasterCard";
 // import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
 
 // Billing page components
 // import PaymentMethod from "layouts/billing/components/PaymentMethod";
-import CallHistory from "layouts/billing/components/CallHistory";
+import CallHistory from 'layouts/billing/components/CallHistory';
 // import CallDetails from "layouts/billing/components/CallDetails";
 // import BillingInformation from "layouts/billing/components/BillingInformation";
 // import Transactions from "layouts/billing/components/Transactions";

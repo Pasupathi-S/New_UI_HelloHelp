@@ -13,35 +13,36 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 // @mui material components
-import Card from "@mui/material/Card";
-import Switch from "@mui/material/Switch";
-import Grid from "@mui/material/Grid";
-import MuiLink from "@mui/material/Link";
-import { IconButton, InputAdornment } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Card from '@mui/material/Card';
+import Switch from '@mui/material/Switch';
+import Grid from '@mui/material/Grid';
+import MuiLink from '@mui/material/Link';
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
-import axios from "axios";
+import MDBox from 'components/MDBox';
+import MDTypography from 'components/MDTypography';
+import MDInput from 'components/MDInput';
+import MDButton from 'components/MDButton';
+import axios from 'axios';
 
 // Authentication layout components
-import BasicLayout from "layouts/authentication/components/BasicLayout";
+import BasicLayout from 'layouts/authentication/components/BasicLayout';
 
 // Images
-import logo from "assets/images/app_logo_horrizontal.png";
+import logo from 'assets/images/Dashboard-logo.png';
+import Typography from '@mui/material/Typography';
 
 function Basic() {
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -53,13 +54,13 @@ function Basic() {
 
   const handleResetPassword = async () => {
     // const email = prompt("Enter your email:");
-    const oldPassword = prompt("Enter your old password:");
-    const newPassword = prompt("Enter your new password:");
-    const token = localStorage.getItem("token");
+    const oldPassword = prompt('Enter your old password:');
+    const newPassword = prompt('Enter your new password:');
+    const token = localStorage.getItem('token');
     if (oldPassword && newPassword && token) {
       try {
         await axios.post(
-          "https://lemonpeak-hellohelp-backend.onrender.com/api/auth/reset-password",
+          'https://lemonpeak-hellohelp-backend.onrender.com/api/auth/reset-password',
           { oldPassword, newPassword },
           {
             headers: {
@@ -67,16 +68,16 @@ function Basic() {
             },
           }
         );
-        alert("Password changed successfully!");
+        alert('Password changed successfully!');
       } catch (error) {
-        alert(error.response?.data?.error || "Failed to change password. Please try again.");
+        alert(error.response?.data?.error || 'Failed to change password. Please try again.');
       }
     } else {
-      alert("Please provide old and new password, and make sure you are logged in.");
+      alert('Please provide old and new password, and make sure you are logged in.');
     }
   };
   const handleForgotPassword = () => {
-    const userEmail = prompt("Please enter your email to reset your password:");
+    const userEmail = prompt('Please enter your email to reset your password:');
     if (userEmail) {
       alert(`Password reset link has been sent to ${userEmail}`);
     }
@@ -86,39 +87,48 @@ function Basic() {
     e.preventDefault();
 
     if (!email || !password) {
-      setError("Please enter your email and password.");
+      setError('Please enter your email and password.');
       return;
     }
     setError(false);
     try {
       const response = await axios.post(
-        "https://lemonpeak-hellohelp-backend.onrender.com/api/auth/login",
+        'https://lemonpeak-hellohelp-backend.onrender.com/api/auth/login',
         {
           email,
           password,
         }
       );
 
-      localStorage.setItem("token", response.data.token);
-      navigate("/dashboard");
+      localStorage.setItem('token', response.data.token);
+      navigate('/dashboard');
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
+      if (error.response && error.response.data.error) {
+        if (error.response.data.error.toLowerCase().includes('invalid credentials')) {
+          setError('Email or Password is incorrect');
+        } else {
+          setError(error.response.data);
+        }
       } else {
-        setError("An error occurred. Please try again later.");
+        setError('An error occurred. Please try again later.');
       }
-      console.error("Login error:", error);
     }
   };
 
   return (
     <BasicLayout>
-      <Card>
-        <MDBox
+      <MDBox display="flex" justifyContent="center" alignItems="center">
+        <img src={logo} alt="App Logo" style={{ height: '75px' }} />
+      </MDBox>
+      <Card sx={{ mt: 3 }}>
+        <Typography variant="caption" className="header">
+          Instant support. Exceptional results.
+        </Typography>
+        {/* <MDBox
           variant="gradient"
           sx={{
-            background: "#281b62",
-            color: "white",
+            background: '#281b62',
+            color: 'white',
             fontWeight: 600,
           }}
           borderRadius="lg"
@@ -129,30 +139,43 @@ function Basic() {
           mb={1}
           textAlign="center"
         >
-          <img src={logo} alt="App Logo" style={{ height: "50px", marginRight: "10px" }} />
+          <img src={logo} alt="App Logo" style={{ height: '50px', marginRight: '10px' }} />
 
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Login
           </MDTypography>
-        </MDBox>
-        <MDBox pt={4} pb={3} px={3}>
+        </MDBox> */}
+        <MDBox pt={3} pb={3} px={4}>
           <MDBox component="form" role="form" onSubmit={handleSignIn}>
-            <MDBox mb={2}>
+            <MDBox mb={1.6}>
+              <Typography variant="caption" className="label">
+                Email
+              </Typography>
               <MDInput
                 type="email"
-                label="Email"
                 fullWidth
                 value={email}
+                placeholder="you@example.com"
                 onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                sx={{ background: '#F3F4F6', mt: 1 }}
+                inputProps={{ style: { fontSize: '18px' } }} // ✅ Ensures consistent font size
+                className="input-field"
               />
             </MDBox>
-            <MDBox mb={1}>
+
+            <MDBox mb={1.6} sx={{ fontSize: '16px' }}>
+              <Typography variant="caption" className="label">
+                Password
+              </Typography>
               <MDInput
-                type={showPassword ? "text" : "password"}
-                label="Password"
+                type={showPassword ? 'text' : 'password'}
                 fullWidth
+                className="input-field"
                 value={password}
+                placeholder="••••••••"
                 onChange={(e) => setPassword(e.target.value)}
+                sx={{ background: '#F3F4F6', mt: 1 }}
+                inputProps={{ style: { fontSize: '18px' } }} // ✅ This keeps it consistent even after eye click
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -164,47 +187,67 @@ function Basic() {
                 }}
               />
             </MDBox>
+
             {error && (
               <MDBox mb={2}>
-                <MDTypography variant="caption" color="error">
+                <MDTypography variant="caption" className="error-msg" color="error">
                   {error}
                 </MDTypography>
               </MDBox>
             )}
+            <MDBox mt={2} mb={1}>
+              <MDButton
+                type="submit"
+                variant="gradient"
+                fullWidth
+                sx={{
+                  background: '#1D4ED8',
+                  color: '#FFFFFF',
+                  fontWeight: 500,
+                  fontSize: '16px',
+                  textTransform: 'none',
+                  // "&:hover": {
+                  //   background: "#001131",
+                  // },
+                }}
+              >
+                Sign in
+              </MDButton>
+            </MDBox>
             {/* Reset Password & Forget Password */}
             <MDBox mb={2}>
-              <Grid container>
+              <Grid container sx={{ mt: 2 }}>
                 <Grid item xs={6}>
                   <MDTypography
                     variant="button"
                     fontWeight="medium"
                     sx={{
-                      background: "(90deg, #000E29 0%, #000E29 100%)", // correct gradient
-                      color: "white", // text color inside the dark background
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      textAlign: "left",
+                      fontSize: '16px',
+                      color: '#60A5FA',
+                      fontWeight: 400,
+                      cursor: 'pointer',
+                      textAlign: 'left',
                       px: 1, // optional padding
                       py: 0.5,
-                      borderRadius: "4px", // optional rounded corners
+                      borderRadius: '4px', // optional rounded corners
                     }}
                     onClick={handleResetPassword}
                   >
                     Reset Password
                   </MDTypography>
                 </Grid>
-                <Grid item xs={6} sx={{ textAlign: "right" }}>
+                <Grid item xs={6} sx={{ textAlign: 'right' }}>
                   <MDTypography
                     variant="button"
                     sx={{
-                      background: "(90deg, #000E29 0%, #000E29 100%)",
-                      color: "white",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      textAlign: "left",
+                      fontSize: '16px',
+                      color: '#60A5FA',
+                      fontWeight: 400,
+                      cursor: 'pointer',
+                      textAlign: 'left',
                       px: 1,
                       py: 0.5,
-                      borderRadius: "4px",
+                      borderRadius: '4px',
                     }}
                     fontWeight="medium"
                     onClick={handleForgotPassword}
@@ -215,35 +258,19 @@ function Basic() {
               </Grid>
             </MDBox>
 
-            <MDBox display="flex" alignItems="center" ml={-1}>
+            {/* <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
               <MDTypography
                 variant="button"
                 fontWeight="regular"
                 color="text"
                 onClick={handleSetRememberMe}
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+                sx={{ cursor: 'pointer', userSelect: 'none', ml: -1 }}
               >
                 &nbsp;&nbsp;Remember me
               </MDTypography>
-            </MDBox>
-            <MDBox mt={4} mb={1}>
-              <MDButton
-                type="submit"
-                variant="gradient"
-                fullWidth
-                sx={{
-                  background: "#281b62",
-                  color: "#fff",
-                  fontWeight: 600,
-                  // "&:hover": {
-                  //   background: "#001131",
-                  // },
-                }}
-              >
-                login
-              </MDButton>
-            </MDBox>
+            </MDBox> */}
+
             {/* <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
