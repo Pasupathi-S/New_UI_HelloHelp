@@ -1,15 +1,8 @@
 {
-<<<<<<< HEAD
   "singleQuote": true,
-=======
->>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
   "printWidth": 100,
   "trailingComma": "es5",
   "tabWidth": 2,
   "semi": true,
-<<<<<<< HEAD
-=======
-  "singleQuote": false,
->>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
   "endOfLine": "auto"
 }

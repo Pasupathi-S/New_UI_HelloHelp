@@ -168,7 +168,6 @@ export default function useCustomerList(fromDate = null, toDate = null) {
 
   return {
     columns: [
-<<<<<<< HEAD
       { Header: () => <MDBox>Id</MDBox>, accessor: 'id', align: 'left' },
       {
         Header: () => <MDBox>Firstname</MDBox>,
@@ -195,13 +194,6 @@ export default function useCustomerList(fromDate = null, toDate = null) {
         align: 'left',
         sortable: false, // ✅ correct way for Material Dashboard
       },
-=======
-      { Header: 'Id', accessor: 'id', width: '7%', align: 'left' },
-      { Header: 'Firstname', accessor: 'username', width: '11%', align: 'left' },
-      { Header: 'phone no', accessor: 'phone_no', width: '11%', align: 'left' },
-      { Header: 'created at', accessor: 'created_at', width: '11%', align: 'left' },
-      { Header: 'action', accessor: 'action', width: '11%', align: 'left' },
->>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     ],
     rows,
     editDialog: (
