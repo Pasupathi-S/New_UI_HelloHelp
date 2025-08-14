@@ -57,8 +57,13 @@ const colors = {
   },
 
   info: {
+<<<<<<< HEAD
     main: '#0000',
     focus: '#0000',
+=======
+    main: '#1A73E8',
+    focus: '#1662C4',
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
   },
 
   success: {
@@ -110,8 +115,13 @@ const colors = {
     },
 
     info: {
+<<<<<<< HEAD
       main: '#EBE8FA',
       state: '#EBE8FA',
+=======
+      main: '#49a3f1',
+      state: '#1A73E8',
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     },
 
     success: {

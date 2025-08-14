@@ -19,6 +19,7 @@ import PeopleIcon from '@mui/icons-material/People';
 const routes = [
   {
     type: 'collapse',
+<<<<<<< HEAD
     name: <span style={{ color: '#737373', fontWeight: '700' }}>Dashboard</span>,
     key: 'dashboard',
     icon: (
@@ -26,11 +27,17 @@ const routes = [
         dashboard
       </Icon>
     ),
+=======
+    name: 'Dashboard',
+    key: 'dashboard',
+    icon: <Icon fontSize="small">dashboard</Icon>,
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     route: '/dashboard',
     component: <Dashboard />,
   },
   {
     type: 'collapse',
+<<<<<<< HEAD
     name: <span style={{ color: '#737373', fontWeight: '700' }}>Users</span>,
     key: 'users',
     icon: (
@@ -38,11 +45,17 @@ const routes = [
         person
       </Icon>
     ),
+=======
+    name: 'Users',
+    key: 'users',
+    icon: <Icon fontSize="small">person</Icon>,
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     route: '/users',
     component: <Users />,
   },
   {
     type: 'collapse',
+<<<<<<< HEAD
     name: <span style={{ color: '#737373', fontWeight: '700' }}>Call History</span>,
     key: 'call-history',
     icon: (
@@ -50,6 +63,11 @@ const routes = [
         call
       </Icon>
     ),
+=======
+    name: 'Call History',
+    key: 'call-history',
+    icon: <Icon fontSize="small">call</Icon>,
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     route: '/call-history',
     component: <Billing />,
   },
@@ -63,6 +81,7 @@ const routes = [
   // },
   {
     type: 'collapse',
+<<<<<<< HEAD
     name: <span style={{ color: '#737373', fontWeight: '700' }}>Push Notifications</span>,
     key: 'notifications',
     icon: (
@@ -70,11 +89,17 @@ const routes = [
         notifications
       </Icon>
     ),
+=======
+    name: 'Push Notifications',
+    key: 'notifications',
+    icon: <Icon fontSize="small">notifications</Icon>,
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     route: '/notifications',
     component: <Notifications />,
   },
   {
     type: 'collapse',
+<<<<<<< HEAD
     name: <span style={{ color: '#737373', fontWeight: '700' }}>Notification History</span>,
     key: 'notification-history',
     icon: (
@@ -82,6 +107,11 @@ const routes = [
         notifications
       </Icon>
     ),
+=======
+    name: 'Notification History',
+    key: 'notification-history',
+    icon: <Icon fontSize="small">notifications</Icon>,
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     route: '/notification-history',
     component: <NotificationHistory />,
   },
@@ -95,6 +125,7 @@ const routes = [
   // },
   {
     type: 'collapse',
+<<<<<<< HEAD
     name: <span style={{ color: '#737373', fontWeight: '700' }}> Logout </span>,
     key: 'sign-in',
     icon: (
@@ -102,6 +133,11 @@ const routes = [
         logout
       </Icon>
     ),
+=======
+    name: 'Logout',
+    key: 'sign-in',
+    icon: <Icon fontSize="small">logout</Icon>,
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
     route: '/authentication/sign-in',
     component: <SignIn />,
   },

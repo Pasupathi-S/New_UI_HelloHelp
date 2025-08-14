@@ -47,7 +47,11 @@ function collapseItem(theme, ownerState) {
     },
 
     '&:hover, &:focus': {
+<<<<<<< HEAD
       backgroundColor: '#d1d6e5',
+=======
+      backgroundColor: '#1E3A8A',
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
       //  () => {
       //   if (!active) {
       //     if (transparentSidenav && !darkMode) {

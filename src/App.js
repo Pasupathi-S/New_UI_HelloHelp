@@ -53,7 +53,11 @@ import 'css/style.css';
 // Images
 import brandWhite from 'assets/images/logo-ct.png';
 import brandDark from 'assets/images/logo-ct-dark.png';
+<<<<<<< HEAD
 import logo from 'assets/images/Dashboard-logo.png';
+=======
+import logo from 'assets/images/app_logo_horrizontal.png';
+>>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
 
 import CallDetails from 'layouts/billing/components/CallDetails';
 import AgentDetails from 'layouts/tables/data/AgentDetails';
