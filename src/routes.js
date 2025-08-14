@@ -26,9 +26,6 @@ const routes = [
         dashboard
       </Icon>
     ),
-    name: 'Dashboard',
-    key: 'dashboard',
-    icon: <Icon fontSize="small">dashboard</Icon>,
     route: '/dashboard',
     component: <Dashboard />,
   },
@@ -41,9 +38,6 @@ const routes = [
         person
       </Icon>
     ),
-    name: 'Users',
-    key: 'users',
-    icon: <Icon fontSize="small">person</Icon>,
     route: '/users',
     component: <Users />,
   },
@@ -56,9 +50,6 @@ const routes = [
         call
       </Icon>
     ),
-    name: 'Call History',
-    key: 'call-history',
-    icon: <Icon fontSize="small">call</Icon>,
     route: '/call-history',
     component: <Billing />,
   },
@@ -79,9 +70,6 @@ const routes = [
         notifications
       </Icon>
     ),
-    name: 'Push Notifications',
-    key: 'notifications',
-    icon: <Icon fontSize="small">notifications</Icon>,
     route: '/notifications',
     component: <Notifications />,
   },
@@ -94,9 +82,6 @@ const routes = [
         notifications
       </Icon>
     ),
-    name: 'Notification History',
-    key: 'notification-history',
-    icon: <Icon fontSize="small">notifications</Icon>,
     route: '/notification-history',
     component: <NotificationHistory />,
   },
@@ -117,9 +102,6 @@ const routes = [
         logout
       </Icon>
     ),
-    name: 'Logout',
-    key: 'sign-in',
-    icon: <Icon fontSize="small">logout</Icon>,
     route: '/authentication/sign-in',
     component: <SignIn />,
   },
