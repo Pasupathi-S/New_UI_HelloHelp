@@ -247,28 +247,16 @@ export default function AgentList() {
               Header: () => <MDBox>Id</MDBox>,
               accessor: 'id',
               align: 'left',
-<<<<<<< HEAD
-=======
-              width: '10%',
->>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
             },
             {
               Header: () => <MDBox>Firstname</MDBox>,
               accessor: 'username',
               align: 'left',
-<<<<<<< HEAD
-=======
-              width: '18%',
->>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
             },
             {
               Header: () => <MDBox>Email</MDBox>,
               accessor: 'email',
               align: 'left',
-<<<<<<< HEAD
-=======
-              width: '25%',
->>>>>>> abc9b78c4c1ca065f8b8785ad8106686ed0b6e2e
             },
             {
               Header: () => <MDBox>Phone no</MDBox>,
