@@ -2,17 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import { Tooltip, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import PersonIcon from '@mui/icons-material/Person';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import MDBox from 'components/MDBox';
 import MDTypography from 'components/MDTypography';
 import MDAvatar from 'components/MDAvatar';
 import EditCustomerDialog from './EditCustomerDialog';
-import team2 from 'assets/images/team-2.jpg';
 import PropTypes from 'prop-types';
 
-export default function useCustomerList(fromDate = null, toDate = null) {
+export default function useCustomerList(fromDate = null, toDate = null, recentLimit = 20) {
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center">
       {image}
@@ -32,10 +30,11 @@ export default function useCustomerList(fromDate = null, toDate = null) {
   );
 
   Author.propTypes = {
-    image: PropTypes.string,
+    image: PropTypes.node, // changed to node since you pass JSX, not string
     name: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
+    email: PropTypes.string,
   };
+
   const Job = ({ title }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
@@ -43,11 +42,13 @@ export default function useCustomerList(fromDate = null, toDate = null) {
       </MDTypography>
     </MDBox>
   );
+
   Job.propTypes = {
     title: PropTypes.string,
   };
 
   const [rows, setRows] = React.useState([]);
+  const [recentCustomers, setRecentCustomers] = React.useState([]);
   const [editOpen, setEditOpen] = React.useState(false);
   const [currentCustomer, setCurrentCustomer] = React.useState(null);
 
@@ -61,7 +62,9 @@ export default function useCustomerList(fromDate = null, toDate = null) {
     try {
       const response = await axios.get(
         'https://lemonpeak-hellohelp-backend.onrender.com/api/customer/customers',
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       return response.data;
     } catch (error) {
@@ -80,7 +83,10 @@ export default function useCustomerList(fromDate = null, toDate = null) {
       return (!from || createdDate >= from) && (!to || createdDate <= to);
     });
 
-    const formattedRows = filteredData.map((customer) => ({
+    // Sort by most recent first
+    const sortedData = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    const formattedRows = sortedData.map((customer) => ({
       id: <Job title={String(customer.id)} />,
       username: customer.username ? (
         <Author
@@ -89,7 +95,6 @@ export default function useCustomerList(fromDate = null, toDate = null) {
               sx={{
                 background: '#D2DCF6',
                 color: '#3B82F6',
-
                 width: '30px',
                 height: '30px',
                 fontSize: '15px',
@@ -106,7 +111,6 @@ export default function useCustomerList(fromDate = null, toDate = null) {
           Unknown
         </MDTypography>
       ),
-
       created_at: (
         <MDTypography variant="caption" color="text" fontWeight="medium">
           {customer.created_at
@@ -160,6 +164,9 @@ export default function useCustomerList(fromDate = null, toDate = null) {
     }));
 
     setRows(formattedRows);
+
+    // Keep only top N most recent customers (default 5)
+    setRecentCustomers(sortedData.slice(0, recentLimit));
   };
 
   React.useEffect(() => {
@@ -168,34 +175,35 @@ export default function useCustomerList(fromDate = null, toDate = null) {
 
   return {
     columns: [
-      { Header: () => <MDBox>Id</MDBox>, accessor: 'id', align: 'left' },
       {
-        Header: () => <MDBox>Firstname</MDBox>,
+        Header: <MDBox className="text-lowercase">Id</MDBox>,
+        accessor: 'id',
+        align: 'left',
+      },
+      {
+        Header: <MDBox className="text-lowercase">First Name</MDBox>,
         accessor: 'username',
-
         align: 'left',
       },
       {
-        Header: () => <MDBox>phone no</MDBox>,
+        Header: <MDBox className="text-lowercase">Phone No</MDBox>,
         accessor: 'phone_no',
-
         align: 'left',
       },
       {
-        Header: () => <MDBox>created at</MDBox>,
+        Header: <MDBox className="text-lowercase">Created At</MDBox>,
         accessor: 'created_at',
-
         align: 'left',
       },
       {
-        Header: () => <MDBox>action</MDBox>,
+        Header: <MDBox className="text-lowercase">Action</MDBox>,
         accessor: 'action',
-
         align: 'left',
-        sortable: false, // ✅ correct way for Material Dashboard
+        sortable: false,
       },
     ],
     rows,
+    recentCustomers, // array of most recent raw customer objects
     editDialog: (
       <EditCustomerDialog
         open={editOpen}

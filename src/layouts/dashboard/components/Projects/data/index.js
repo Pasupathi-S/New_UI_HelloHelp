@@ -45,6 +45,8 @@ export default function RecentCallsTable() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        console.log('vvvvvvvvvvvvvvvvvvvvvv', res);
+
         const sortedData = res.data.sort((a, b) => new Date(b.started_at) - new Date(a.started_at));
         setCallLogs(sortedData);
         setLoading(false);
@@ -169,7 +171,7 @@ export default function RecentCallsTable() {
         sx={{
           height: '100%',
           marginLeft: '-17px',
-          width: isMobile ? '100%' : '157%',
+          width: isMobile ? '100%' : '156%',
           borderRadius: 3,
         }}
       >
@@ -205,7 +207,7 @@ export default function RecentCallsTable() {
                       {
                         Header: () => (
                           <MDBox
-                            className="table-head"
+                            className="table-head text-lowercase"
                             sx={{
                               pl: 1,
                               minWidth: '40px',
@@ -224,7 +226,7 @@ export default function RecentCallsTable() {
                       },
                       {
                         Header: () => (
-                          <MDBox className="table-head" sx={{}}>
+                          <MDBox className="table-head text-lowercase" sx={{}}>
                             Caller
                           </MDBox>
                         ),
@@ -233,7 +235,7 @@ export default function RecentCallsTable() {
 
                       {
                         Header: () => (
-                          <MDBox className="table-head" sx={{}}>
+                          <MDBox className="table-head text-lowercase" sx={{}}>
                             Receiver
                           </MDBox>
                         ),
@@ -241,7 +243,7 @@ export default function RecentCallsTable() {
                       },
                       {
                         Header: () => (
-                          <MDBox className="table-head" sx={{}}>
+                          <MDBox className="table-head text-lowercase" sx={{}}>
                             Call Type
                           </MDBox>
                         ),
@@ -249,7 +251,7 @@ export default function RecentCallsTable() {
                       },
                       {
                         Header: () => (
-                          <MDBox className="table-head" sx={{}}>
+                          <MDBox className="table-head text-lowercase" sx={{}}>
                             Status
                           </MDBox>
                         ),
@@ -257,7 +259,7 @@ export default function RecentCallsTable() {
                       },
                       {
                         Header: () => (
-                          <MDBox className="table-head" sx={{}}>
+                          <MDBox className="table-head text-lowercase" sx={{}}>
                             Time
                           </MDBox>
                         ),
@@ -265,7 +267,7 @@ export default function RecentCallsTable() {
                       },
                       {
                         Header: () => (
-                          <MDBox className="table-head" sx={{}}>
+                          <MDBox className="table-head text-lowercase" sx={{}}>
                             Duration
                           </MDBox>
                         ),
@@ -274,7 +276,7 @@ export default function RecentCallsTable() {
                       {
                         Header: () => (
                           <MDBox
-                            className="table-head"
+                            className="table-head text-lowercase"
                             sx={{
                               pr: 2, // Tight padding
                               textAlign: 'start',
@@ -293,8 +295,8 @@ export default function RecentCallsTable() {
                   }}
                   isSorted={true}
                   entriesPerPage={{
-                    defaultValue: 5,
-                    entries: [5, 10, 25, 50],
+                    defaultValue: 20,
+                    entries: [20, 50, 100, 200],
                   }}
                   showTotalEntries={true}
                   noEndBorder

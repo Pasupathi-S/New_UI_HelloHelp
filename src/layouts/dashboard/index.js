@@ -74,7 +74,7 @@ function Dashboard() {
       progressColor: '#000E29',
     },
     {
-      title: 'One Day Customer Count',
+      title: 'Today Customer Count',
       value: '-',
       change: '',
       icon: <AccessTimeIcon />,
@@ -129,7 +129,7 @@ function Dashboard() {
             progressColor: 'success',
           },
           {
-            title: 'One Day Customer Count',
+            title: 'Today Customer Count',
             value: data.customers_created_yesterday ?? '-',
             // change: data.video_calls_change ?? '',
             icon: <AccessTimeIcon />,

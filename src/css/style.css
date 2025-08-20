@@ -89,3 +89,10 @@ body {
 .css-18c2anf {
   padding-right: 37px !important;
 }
+.add-btn{
+  background-color: #1D4ED8 !important;
+  color:#fff !important;
+}
+.text-lowercase{
+  text-transform: none !important;
+}

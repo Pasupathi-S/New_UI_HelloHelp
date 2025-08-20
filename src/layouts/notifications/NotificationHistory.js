@@ -141,12 +141,16 @@ function NotificationHistory() {
                         //   accessor: 'id',
                         // },
                         {
-                          Header: () => <span>Date & Time</span>,
+                          Header: () => <span className="text-lowercase">Date & Time</span>,
                           accessor: 'date',
                         },
 
                         {
-                          Header: () => <span style={{ marginRight: '30px' }}>Campaign Id</span>,
+                          Header: () => (
+                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                              Campaign Id
+                            </span>
+                          ),
                           accessor: 'campaignId',
                         },
                         // {
@@ -154,22 +158,34 @@ function NotificationHistory() {
                         //   accessor: 'userid',
                         // },
                         {
-                          Header: () => <span style={{ marginRight: '30px' }}>User Name</span>,
+                          Header: () => (
+                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                              User Name
+                            </span>
+                          ),
                           accessor: 'username',
                         },
 
                         {
-                          Header: () => <span style={{ marginRight: '30px' }}>Title</span>,
+                          Header: () => (
+                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                              Title
+                            </span>
+                          ),
                           accessor: 'title',
                         },
                         {
-                          Header: () => <span style={{ marginRight: '30px' }}>Message</span>,
+                          Header: () => (
+                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                              Message
+                            </span>
+                          ),
                           accessor: 'message',
                           Cell: MessageCell,
                         },
 
                         {
-                          Header: () => <span>Status</span>,
+                          Header: () => <span className="text-lowercase">Status</span>,
                           accessor: 'status',
                           Cell: StatusChip,
                         },
@@ -178,8 +194,8 @@ function NotificationHistory() {
                     }}
                     isSorted={true}
                     entriesPerPage={{
-                      defaultValue: 5,
-                      entries: [5, 10, 20, 50],
+                      defaultValue: 20,
+                      entries: [20, 50, 100, 200],
                     }}
                     showTotalEntries={true}
                     noEndBorder

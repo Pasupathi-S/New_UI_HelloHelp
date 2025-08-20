@@ -12,6 +12,8 @@ import SignUp from 'layouts/authentication/sign-up';
 // @mui icons
 import Icon from '@mui/material/Icon';
 import PeopleIcon from '@mui/icons-material/People';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import GroupIcon from '@mui/icons-material/Group';
 
 // Agents component
 // import Agents from "layouts/tables/Agents";
@@ -31,16 +33,22 @@ const routes = [
   },
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Users</span>,
-    key: 'users',
-    icon: (
-      <Icon fontSize="small" sx={{ color: '#737373' }}>
-        person
-      </Icon>
-    ),
-    route: '/users',
-    component: <Users />,
+    name: <span style={{ color: '#737373', fontWeight: '700' }}>Agents</span>,
+    key: 'agents',
+    icon: <GroupIcon fontSize="small" sx={{ color: '#737373 !important' }} />,
+    route: '/agents',
+    component: <Users type="agents" />, // 👈 Pass type
   },
+  {
+    type: 'collapse',
+    name: <span style={{ color: '#737373', fontWeight: '700' }}>Customers</span>,
+    key: 'customers',
+    icon: <PersonAddIcon fontSize="small" sx={{ color: '#737373 !important' }} />,
+
+    route: '/customers',
+    component: <Users type="customers" />, // 👈 Pass type
+  },
+
   {
     type: 'collapse',
     name: <span style={{ color: '#737373', fontWeight: '700' }}>Call History</span>,

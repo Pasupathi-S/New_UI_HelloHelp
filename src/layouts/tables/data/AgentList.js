@@ -244,27 +244,27 @@ export default function AgentList() {
         table={{
           columns: [
             {
-              Header: () => <MDBox>Id</MDBox>,
+              Header: () => <MDBox className="text-lowercase">Id</MDBox>,
               accessor: 'id',
               align: 'left',
             },
             {
-              Header: () => <MDBox>Firstname</MDBox>,
+              Header: () => <MDBox className="text-lowercase">FirstName</MDBox>,
               accessor: 'username',
               align: 'left',
             },
             {
-              Header: () => <MDBox>Email</MDBox>,
+              Header: () => <MDBox className="text-lowercase">Email</MDBox>,
               accessor: 'email',
               align: 'left',
             },
             {
-              Header: () => <MDBox>Phone no</MDBox>,
+              Header: () => <MDBox className="text-lowercase">Phone No</MDBox>,
               accessor: 'phone',
               align: 'left',
             },
             {
-              Header: () => <MDBox>Action</MDBox>,
+              Header: () => <MDBox className="text-lowercase">Action</MDBox>,
               accessor: 'action',
               align: 'left',
             },
@@ -273,8 +273,8 @@ export default function AgentList() {
         }}
         isSorted={true}
         entriesPerPage={{
-          defaultValue: 5,
-          entries: [5, 10, 15, 20, 50, 100, 200, 500, 1000],
+          defaultValue: 20,
+          entries: [20, 50, 100, 200],
         }}
         showTotalEntries={true}
         noEndBorder

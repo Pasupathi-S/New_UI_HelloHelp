@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import MDBox from 'components/MDBox';
@@ -8,12 +8,12 @@ import axios from 'axios';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-function AddAgent({ form, onChange, onAgentAdded, onClose }) {
-  const [formData, setFormData] = useState(form);
+function AddAgent({ form, setForm, onAgentAdded, onClose }) {
   const [passwordValidation, setPasswordValidation] = useState({
     length: false,
     uppercase: false,
     lowercase: false,
+    number: false,
     special: false,
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -24,24 +24,19 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
 
     if (name === 'phone') {
-      const cleanedPhone = value.replace(/\D/g, '').slice(0, 10);
-      setFormData((prev) => ({ ...prev, [name]: cleanedPhone }));
-      onChange({ target: { name, value: cleanedPhone } });
+      newValue = value.replace(/\D/g, '').slice(0, 10);
     } else if (name === 'country_code') {
-      const cleanedCode = value.replace(/[^\d+]/g, '').slice(0, 5);
-      setFormData((prev) => ({ ...prev, [name]: cleanedCode }));
-      onChange({ target: { name, value: cleanedCode } });
-    } else if (name === 'password') {
-      // update form and validate password
-      setFormData((prev) => ({ ...prev, [name]: value }));
-      validatePassword(value);
-      onChange(e);
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-      onChange(e);
+      newValue = value.replace(/[^\d+]/g, '').slice(0, 5);
     }
+
+    if (name === 'password') {
+      validatePassword(newValue);
+    }
+
+    setForm((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const validatePassword = (password) => {
@@ -56,7 +51,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, user_lastname, email, phone, password } = formData;
+    const { username, user_lastname, email, phone, password, country_code } = form;
 
     if (!username || !user_lastname || !email || !phone || !password) {
       alert('Please fill all fields.');
@@ -66,12 +61,13 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
       alert('Please enter a valid 10-digit phone number.');
       return;
     }
-    if (!/^\+?\d{1,5}$/.test(formData.country_code)) {
+    if (!/^\+?\d{1,5}$/.test(country_code)) {
       alert('Enter a valid country code, like +91 or 1.');
       return;
     }
-    const { length, uppercase, lowercase, special } = passwordValidation;
-    if (!length || !uppercase || !lowercase || !special) {
+
+    const { length, uppercase, lowercase, number, special } = passwordValidation;
+    if (!length || !uppercase || !lowercase || !number || !special) {
       alert('Password does not meet the required conditions.');
       return;
     }
@@ -84,7 +80,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
           username,
           user_lastname,
           email,
-          country_code: formData.country_code,
+          country_code,
           phone,
           password,
           is_agent: true,
@@ -97,7 +93,6 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
       if (onClose) onClose();
     } catch (error) {
       alert('Failed to add agent.');
-      return false;
     }
   };
 
@@ -110,7 +105,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             label="First Name"
             name="username"
             fullWidth
-            value={formData.username}
+            value={form.username}
             onChange={handleChange}
             inputProps={{ maxLength: 50 }}
             margin="normal"
@@ -120,7 +115,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             label="Last Name"
             name="user_lastname"
             fullWidth
-            value={formData.user_lastname}
+            value={form.user_lastname || ''}
             onChange={handleChange}
             inputProps={{ maxLength: 50 }}
             margin="normal"
@@ -130,7 +125,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             label="Email"
             name="email"
             fullWidth
-            value={formData.email}
+            value={form.email}
             onChange={handleChange}
             inputProps={{ maxLength: 50 }}
             margin="normal"
@@ -140,7 +135,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             label="Country Code"
             name="country_code"
             fullWidth
-            value={formData.country_code}
+            value={form.country_code || ''}
             onChange={handleChange}
             inputProps={{ maxLength: 5 }}
             margin="normal"
@@ -150,7 +145,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             label="Phone Number"
             name="phone"
             fullWidth
-            value={formData.phone}
+            value={form.phone}
             onChange={handleChange}
             inputProps={{ maxLength: 10 }}
             margin="normal"
@@ -160,7 +155,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             label="Password"
             name="password"
             fullWidth
-            value={formData.password}
+            value={form.password}
             onChange={handleChange}
             inputProps={{ maxLength: 20 }}
             InputProps={{
@@ -174,6 +169,8 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             }}
             margin="normal"
           />
+
+          {/* Password validation checklist */}
           <MDBox mt={1} mb={2} color="text.secondary">
             <ul className="er-font-size" style={{ margin: 0, paddingLeft: '20px' }}>
               <li style={{ color: passwordValidation.length ? 'green' : 'red' }}>
@@ -194,11 +191,12 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
             </ul>
           </MDBox>
 
+          {/* Buttons */}
           <MDBox mt={3} mb={2} display="flex" justifyContent="space-between">
             <MDButton variant="outlined" color="error" onClick={onClose}>
               Cancel
             </MDButton>
-            <MDButton type="submit" variant="gradient" color="info">
+            <MDButton className="add-btn" type="submit">
               Add
             </MDButton>
           </MDBox>
@@ -210,7 +208,7 @@ function AddAgent({ form, onChange, onAgentAdded, onClose }) {
 
 AddAgent.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  setForm: PropTypes.func.isRequired,
   onAgentAdded: PropTypes.func,
   onClose: PropTypes.func,
 };

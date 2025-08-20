@@ -276,12 +276,21 @@ export default function CallHistory() {
                 table={{
                   columns: [
                     // { Header: 'ID', accessor: 'id', Cell: IdChip },
-                    { Header: 'Date', accessor: 'started_at', Cell: DateCell },
+                    {
+                      Header: <span className="text-lowercase">Date</span>,
+                      accessor: 'started_at',
+                      Cell: DateCell,
+                    },
 
-                    { Header: 'Caller ID', accessor: 'caller_id', Cell: CallerChip },
+                    {
+                      Header: <span className="text-lowercase">Caller ID</span>,
+                      accessor: 'caller_id',
+                      Cell: CallerChip,
+                    },
                     {
                       Header: () => (
                         <MDBox
+                          className="text-lowercase"
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
@@ -299,10 +308,15 @@ export default function CallHistory() {
                       accessor: 'caller_name',
                       Cell: CallerName,
                     },
-                    { Header: 'Receiver ID', accessor: 'receiver_id', Cell: ReceiverChip },
+                    {
+                      Header: <span className="text-lowercase">Receiver ID</span>,
+                      accessor: 'receiver_id',
+                      Cell: ReceiverChip,
+                    },
                     {
                       Header: () => (
                         <MDBox
+                          className="text-lowercase"
                           sx={{
                             display: 'flex',
                             alignItems: 'center',
@@ -321,8 +335,16 @@ export default function CallHistory() {
                       Cell: ReceiverName,
                     },
 
-                    { Header: 'Call Type', accessor: 'call_type', Cell: CallTypeChip },
-                    { Header: 'Request', accessor: 'status', Cell: StatusChip },
+                    {
+                      Header: <span className="text-lowercase">Call Type</span>,
+                      accessor: 'call_type',
+                      Cell: CallTypeChip,
+                    },
+                    {
+                      Header: <span className="text-lowercase">Request</span>,
+                      accessor: 'status',
+                      Cell: StatusChip,
+                    },
                     // {
                     //   Header: () => <span className="table-head">Meeting Call ID</span>,
                     //   accessor: 'meeting_call_id',
@@ -338,7 +360,11 @@ export default function CallHistory() {
                     //   },
                     // },
                     {
-                      Header: () => <MDBox sx={{ mr: 3 }}>Action</MDBox>,
+                      Header: () => (
+                        <MDBox className="text-lowercase" sx={{ mr: 3 }}>
+                          Action
+                        </MDBox>
+                      ),
                       accessor: 'actions',
                       width: '50px',
                       Cell: ActionButton,
@@ -348,8 +374,8 @@ export default function CallHistory() {
                 }}
                 isSorted
                 entriesPerPage={{
-                  defaultValue: 5,
-                  entries: [5, 10, 15, 20, 50, 100, 200, 500, 1000],
+                  defaultValue: 20,
+                  entries: [20, 50, 100, 200],
                 }}
                 showTotalEntries
                 noEndBorder

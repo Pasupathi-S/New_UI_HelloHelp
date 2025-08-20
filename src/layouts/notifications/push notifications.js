@@ -28,6 +28,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 function Notifications() {
   const [title, setTitle] = useState('');
@@ -184,7 +185,7 @@ function Notifications() {
                           onOpen={() => setDropdownOpen(true)}
                           onClose={() => {
                             setDropdownOpen(false);
-                            setSearchTerm(''); // optional: clear search on close
+                            setSearchTerm('');
                           }}
                           value={userIds}
                           onChange={(e) => {
@@ -211,7 +212,7 @@ function Notifications() {
                               .join(', ')
                           }
                           MenuProps={{
-                            disableAutoFocusItem: true, // ✅ Prevent auto focus stealing
+                            disableAutoFocusItem: true,
                             PaperProps: {
                               sx: {
                                 maxHeight: 350,
@@ -224,11 +225,11 @@ function Notifications() {
                               },
                             },
                           }}
+                          IconComponent={ArrowDropDownIcon} // ✅ this ensures dropdown icon shows
                           sx={{
                             borderRadius: 2,
                             backgroundColor: isDarkMode ? '#2e2e3e' : '#f9f9f9',
                             height: 60,
-                            display: 'flex',
                             alignItems: 'center',
                           }}
                         >
@@ -245,7 +246,7 @@ function Notifications() {
                               fullWidth
                               value={searchTerm}
                               onChange={(e) => setSearchTerm(e.target.value)}
-                              onKeyDown={(e) => e.stopPropagation()} // ✅ stop Select from hijacking typing
+                              onKeyDown={(e) => e.stopPropagation()}
                               InputProps={{
                                 disableUnderline: true,
                                 startAdornment: (

@@ -5,92 +5,165 @@ import {
   CardContent,
   Typography,
   Box,
-  ToggleButtonGroup,
-  ToggleButton,
   useTheme,
   useMediaQuery,
+  MenuItem,
+  Select,
+  TextField,
+  Button,
 } from '@mui/material';
-import { BarChart2, LineChart as LineChartIcon } from 'lucide-react';
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-import MDBox from 'components/MDBox';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import MDTypography from 'components/MDTypography';
+import MDBox from 'components/MDBox';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 
+const formatDateLabel = (str, range) => {
+  if (range === '1_year') {
+    const [year, month] = str.split('-');
+    const monthName = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ][parseInt(month, 10) - 1];
+    return `${monthName} ${year}`;
+  }
+  const [year, month, day] = str.split('-');
+  const monthName = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ][parseInt(month, 10) - 1];
+  return `${parseInt(day, 10)} ${monthName}`;
+};
+const generateDateLabels = (start, end) => {
+  if (!start || !end) return [];
+  const [sY, sM, sD] = start.split('-').map(Number);
+  const [eY, eM, eD] = end.split('-').map(Number);
+  let startDate = new Date(sY, sM - 1, sD);
+  let endDate = new Date(eY, eM - 1, eD);
+  if (startDate > endDate) [startDate, endDate] = [endDate, startDate];
+  const labels = [];
+  const date = new Date(startDate);
+  while (date <= endDate) {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    labels.push(`${yyyy}-${mm}-${dd}`);
+    date.setDate(date.getDate() + 1);
+  }
+  return labels;
+};
+const aggregateMonthly = (data) => {
+  const monthMap = {};
+  data.forEach(({ date, users }) => {
+    const monthKey = date.slice(0, 7); // YYYY-MM
+    monthMap[monthKey] = (monthMap[monthKey] || 0) + users;
+  });
+  return Object.entries(monthMap).map(([month, users]) => ({
+    date: month,
+    users,
+  }));
+};
 const CallsChartCard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [chartType, setChartType] = useState('line');
-  const [timeRange, setTimeRange] = useState('day');
   const [chartData, setChartData] = useState([]);
-  const [totals, setTotals] = useState({ initiated: 0, ended: 0, total: 0 });
+  const [dateRange, setDateRange] = useState('1_month');
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
 
-  const handleChartTypeChange = (_event, newChartType) => {
-    if (newChartType !== null) setChartType(newChartType);
-  };
-
-  const handleTimeRangeChange = (_event, newTimeRange) => {
-    if (newTimeRange !== null) setTimeRange(newTimeRange);
+  const resetFilters = () => {
+    setDateRange('1_month');
+    setSelectedMonth('');
+    setSelectedDate('');
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
+        let queryParam = '';
+        if (selectedDate) queryParam = `date=${selectedDate}`;
+        else if (selectedMonth) queryParam = `month=${selectedMonth}`;
+        else if (dateRange) queryParam = `range=${dateRange}`;
+        else queryParam = `range=1_month`;
+
         const res = await axios.get(
-          'https://lemonpeak-hellohelp-backend.onrender.com/api/call/dashboard-stats',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              timeRange,
-            },
-          }
+          `http://localhost:5000/api/admin/customerss-daywise?${queryParam}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        const { initiated_calls = 0, ended_calls = 0 } = res.data;
+        const labels = Array.isArray(res.data.labels) ? res.data.labels : [];
+        const data = Array.isArray(res.data.data) ? res.data.data : [];
 
-        const formattedData = [
-          {
-            time: timeRange.toUpperCase(),
-            initiated: parseInt(initiated_calls, 10),
-            ended: parseInt(ended_calls, 10),
-          },
-        ];
+        if (!labels.length) {
+          setChartData([]);
+          return;
+        }
 
-        setChartData(formattedData);
-        setTotals({
-          initiated: formattedData[0].initiated,
-          ended: formattedData[0].ended,
-          total: formattedData[0].initiated + formattedData[0].ended,
+        const dateToUsers = {};
+        labels.forEach((label, i) => {
+          dateToUsers[label] = parseInt(data[i] || 0, 10);
         });
+
+        const sortedLabels = [...labels].sort();
+        let filledData = generateDateLabels(
+          sortedLabels[0],
+          sortedLabels[sortedLabels.length - 1]
+        ).map((date) => ({ date, users: dateToUsers[date] || 0 }));
+
+        if (dateRange === '1_year') {
+          filledData = aggregateMonthly(filledData);
+        }
+
+        setChartData(filledData);
       } catch (err) {
-        console.error('Error fetching call stats:', err);
+        console.error('Error fetching user creation stats:', err);
         setChartData([]);
-        setTotals({ initiated: 0, ended: 0, total: 0 });
       }
     };
 
     fetchData();
-  }, [timeRange]);
+  }, [selectedDate, selectedMonth, dateRange]);
+
+  // Detect current month
+  const today = new Date();
+  const currentMonthString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+    2,
+    '0'
+  )}`;
+  const isCurrentMonth = selectedMonth === currentMonthString;
+
+  // Short range = 7 days, single date, or current month
+  const isShortRange = dateRange === '1_week' || selectedDate !== '' || isCurrentMonth;
+
+  // Chart width
+  const chartWidth = isShortRange ? '100%' : Math.max(chartData.length * 60, 800);
 
   return (
     <Card
       sx={{
         height: '100%',
         marginLeft: '-17px',
-        width: isMobile ? '100%' : '157%',
+        width: isMobile ? '100%' : '156%',
         borderRadius: 3,
       }}
     >
@@ -101,160 +174,205 @@ const CallsChartCard = () => {
         px={2}
         variant="gradient"
         sx={{
-          background: '#1D4ED8', // gradient using your color
-          color: 'white', // or any readable color
+          background: '#1D4ED8',
+          color: 'white',
           fontWeight: 600,
           boxShadow: 'none',
         }}
         borderRadius="lg"
         coloredShadow="info"
       >
-        <Box display="flex" alignItems="center" gap={1}>
-          <InsertChartIcon style={{ color: '#fff' }} fontSize="medium" />
-          <MDTypography variant="h6" fontWeight="bold" color="white">
-            Call Analytics
-          </MDTypography>
+        <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+          {/* Left side: Title */}
+          <Box display="flex" alignItems="center" gap={1}>
+            <InsertChartIcon style={{ color: '#fff' }} fontSize="medium" />
+            <MDTypography variant="h6" fontWeight="bold" color="white">
+              User Creation Analytics{' '}
+            </MDTypography>
+          </Box>
+
+          {/* Right side: Filters */}
+          <Box display="flex" gap={1} flexWrap="wrap">
+            <Select
+              value={dateRange}
+              onChange={(e) => {
+                setDateRange(e.target.value);
+                setSelectedMonth('');
+                setSelectedDate('');
+              }}
+              size="small"
+              sx={{ backgroundColor: '#f1f2f5ff', minWidth: 140 }}
+            >
+              <MenuItem value="1_week">Last 7 Days</MenuItem>
+              <MenuItem value="1_month">Last 1 Month</MenuItem>
+              <MenuItem value="3_month">Last 3 Months</MenuItem>
+              <MenuItem value="1_year">Last 1 Year</MenuItem>
+            </Select>
+
+            <Select
+              value={selectedMonth}
+              onChange={(e) => {
+                setSelectedMonth(e.target.value);
+                setSelectedDate('');
+                setDateRange('');
+              }}
+              displayEmpty
+              size="small"
+              sx={{ backgroundColor: '#f1f2f5ff', minWidth: 120 }}
+            >
+              <MenuItem value="">Select Month</MenuItem>
+              <MenuItem value="2025-06">June</MenuItem>
+              <MenuItem value="2025-07">July</MenuItem>
+              <MenuItem value="2025-08">August</MenuItem>
+            </Select>
+
+            <TextField
+              type="date"
+              size="small"
+              value={selectedDate}
+              onChange={(e) => {
+                setSelectedDate(e.target.value);
+                setSelectedMonth('');
+                setDateRange('');
+              }}
+              sx={{
+                borderRadius: 1,
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#f1f2f5ff',
+                },
+                '& input': {
+                  padding: '18px',
+                },
+              }}
+            />
+
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={resetFilters}
+              sx={{ minWidth: 80 }}
+            >
+              Reset
+            </Button>
+          </Box>
         </Box>
       </MDBox>
 
       <CardContent>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 3,
-            flexWrap: 'wrap',
-            flexDirection: isMobile ? 'column' : 'row',
-            gap: 2,
-          }}
-        >
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                Initiated calls
-              </Typography>
-              <Typography variant="h6" fontWeight="bold">
-                {totals.initiated}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                Ended calls
-              </Typography>
-              <Typography variant="h6" fontWeight="bold">
-                {totals.ended}
-              </Typography>
-            </Box>
-          </Box>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Total: {chartData.length} {dateRange === '1_year' ? 'months' : 'days'}
+        </Typography>
 
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <ToggleButtonGroup
-              size="small"
-              value={chartType}
-              exclusive
-              onChange={handleChartTypeChange}
-              aria-label="chart type"
-            >
-              <ToggleButton value="line" aria-label="line chart">
-                <LineChartIcon size={16} />
-              </ToggleButton>
-              <ToggleButton value="bar" aria-label="bar chart">
-                <BarChart2 size={16} />
-              </ToggleButton>
-            </ToggleButtonGroup>
-
-            <ToggleButtonGroup
-              size="small"
-              value={timeRange}
-              exclusive
-              onChange={handleTimeRangeChange}
-              aria-label="time range"
-            >
-              <ToggleButton value="day" aria-label="day">
-                Day
-              </ToggleButton>
-              <ToggleButton value="week" aria-label="week">
-                Week
-              </ToggleButton>
-              <ToggleButton value="month" aria-label="month">
-                Month
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
-        </Box>
-
-        <Box sx={{ height: isMobile ? 300 : 350, width: '100%' }}>
-          <ResponsiveContainer width="100%" height="100%">
-            {chartType === 'line' ? (
-              <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
-                <XAxis
-                  dataKey="time"
-                  tick={{ fontSize: 12 }}
-                  stroke={theme.palette.text.secondary}
-                />
-                <YAxis
-                  label={{ value: 'Calls', angle: -90, position: 'insideLeft' }}
-                  tick={{ fontSize: 12 }}
-                  stroke={theme.palette.text.secondary}
-                  domain={[0, 'dataMax + 8']}
-                  allowDecimals={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: theme.palette.background.paper,
-                    borderColor: theme.palette.divider,
-                    borderRadius: 8,
-                    boxShadow: theme.shadows[3],
-                  }}
-                />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="initiated"
-                  stroke={theme.palette.primary.main}
-                  strokeWidth={2}
-                  activeDot={{ r: 6 }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="ended"
-                  stroke={theme.palette.warning.main}
-                  strokeWidth={2}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            ) : (
-              <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
-                <XAxis
-                  dataKey="time"
-                  tick={{ fontSize: 12 }}
-                  stroke={theme.palette.text.secondary}
-                />
-                <YAxis
-                  label={{ value: 'Calls', angle: -90, position: 'insideLeft' }}
-                  tick={{ fontSize: 12 }}
-                  stroke={theme.palette.text.secondary}
-                  domain={[0, 'dataMax + 10']}
-                  allowDecimals={false}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: theme.palette.background.paper,
-                    borderColor: theme.palette.divider,
-                    borderRadius: 8,
-                    boxShadow: theme.shadows[3],
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="initiated" fill={theme.palette.primary.main} radius={[4, 4, 0, 0]} />
-                <Bar dataKey="ended" fill={theme.palette.warning.main} radius={[4, 4, 0, 0]} />
-              </BarChart>
-            )}
+        {isShortRange ? (
+          <ResponsiveContainer width="100%" height={isMobile ? 300 : 380}>
+            <BarChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 60 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
+              <XAxis
+                dataKey="date"
+                tickFormatter={(label) => formatDateLabel(label, dateRange)}
+                tick={{ fontSize: 12 }}
+                stroke={theme.palette.text.secondary}
+                angle={-45}
+                textAnchor="end"
+                interval={0}
+                height={60}
+              />
+              <YAxis
+                label={{
+                  value: 'Users Created',
+                  angle: -90,
+                  position: 'insideLeft',
+                  fontSize: 13,
+                  fill: theme.palette.text.secondary,
+                }}
+                tick={{ fontSize: 12 }}
+                stroke={theme.palette.text.secondary}
+                allowDecimals={false}
+              />
+              <Tooltip
+                formatter={(value) => [`${value} users`, 'Users']}
+                labelFormatter={(label) => {
+                  if (dateRange === '1_year') {
+                    const [year, month] = label.split('-');
+                    return `${month}-${year}`;
+                  }
+                  const [year, month, day] = label.split('-');
+                  return `${day}-${month}-${year}`;
+                }}
+                contentStyle={{
+                  backgroundColor: theme.palette.background.paper,
+                  borderColor: theme.palette.divider,
+                  borderRadius: 8,
+                  boxShadow: theme.shadows[3],
+                }}
+              />
+              <Bar
+                dataKey="users"
+                fill={theme.palette.primary.main}
+                radius={[8, 8, 0, 0]}
+                maxBarSize={50}
+              />
+            </BarChart>
           </ResponsiveContainer>
-        </Box>
+        ) : (
+          <Box sx={{ overflowX: 'auto', overflowY: 'hidden' }}>
+            <Box sx={{ width: chartWidth }}>
+              <BarChart
+                width={chartWidth}
+                height={isMobile ? 300 : 380}
+                data={chartData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 60 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={(label) => formatDateLabel(label, dateRange)}
+                  tick={{ fontSize: 12 }}
+                  stroke={theme.palette.text.secondary}
+                  angle={-45}
+                  textAnchor="end"
+                  interval={0}
+                  height={60}
+                />
+                <YAxis
+                  label={{
+                    value: 'Users Created',
+                    angle: -90,
+                    position: 'insideLeft',
+                    fontSize: 13,
+                    fill: theme.palette.text.secondary,
+                  }}
+                  tick={{ fontSize: 12 }}
+                  stroke={theme.palette.text.secondary}
+                  allowDecimals={false}
+                />
+                <Tooltip
+                  formatter={(value) => [`${value} users`, 'Users']}
+                  labelFormatter={(label) => {
+                    if (dateRange === '1_year') {
+                      const [year, month] = label.split('-');
+                      return `${month}-${year}`;
+                    }
+                    const [year, month, day] = label.split('-');
+                    return `${day}-${month}-${year}`;
+                  }}
+                  contentStyle={{
+                    backgroundColor: theme.palette.background.paper,
+                    borderColor: theme.palette.divider,
+                    borderRadius: 8,
+                    boxShadow: theme.shadows[3],
+                  }}
+                />
+                <Bar
+                  dataKey="users"
+                  fill={theme.palette.primary.main}
+                  radius={[8, 8, 0, 0]}
+                  maxBarSize={50}
+                />
+              </BarChart>
+            </Box>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );

@@ -57,7 +57,7 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
                 ? '#309A46'
                 : title === 'Video Calls'
                 ? '#892BDD'
-                : title === 'One Day Customer Count'
+                : title === 'Today Customer Count'
                 ? '#E1530E'
                 : '',
           }}
