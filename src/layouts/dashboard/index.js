@@ -15,8 +15,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from '@mui/material/Grid';
-import { Card, CardContent, LinearProgress, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { CircularProgress, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -30,70 +29,30 @@ import Footer from 'examples/Footer';
 import ComplexStatisticsCard from 'examples/Cards/StatisticsCards/ComplexStatisticsCard';
 import PeopleIcon from '@mui/icons-material/People';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import PhoneIcon from '@mui/icons-material/Phone';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import PersonIcon from '@mui/icons-material/Person';
 
 // Dashboard components
 import Projects from 'layouts/dashboard/components/Projects';
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
-  const [stats, setStats] = useState([
-    {
-      title: 'Total Agents',
-      value: '-',
-      change: '',
-      icon: <PeopleIcon />,
-      progressValue: 0,
-      progressColor: '#000E29',
-    },
-    {
-      title: 'Total Customers',
-      value: '-',
-      change: '',
-      icon: <PersonAddIcon />,
-      progressValue: 0,
-      progressColor: '#000E29',
-    },
-    // {
-    //   title: "Audio Calls",
-    //   value: "-",
-    //   change: "",
-    //   icon: <PhoneIcon />,
-    //   progressValue: 0,
-    //   progressColor: "#000E29",
-    // },
-    {
-      title: 'Video Calls',
-      value: '-',
-      change: '',
-      icon: <VideocamIcon />,
-      progressValue: 0,
-      progressColor: '#000E29',
-    },
-    {
-      title: 'Today Customer Count',
-      value: '-',
-      change: '',
-      icon: <AccessTimeIcon />,
-
-      progressValue: 0,
-      progressColor: '#000E29',
-    },
-  ]);
+  const [stats, setStats] = useState([]);
+  const [loading, setLoading] = useState(true); // 🔹 Loading state
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios
-      .get('https://lemonpeak-hellohelp-backend.onrender.com/api/call/dashboard-stats', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        // Adjust this mapping based on your actual API response structure
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await axios.get(
+          'https://lemonpeak-hellohelp-backend.onrender.com/api/call/dashboard-stats',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
         const data = res.data;
-        console.log('Dashboard Stats Data:', data); // Log the data for debugging
+        console.log('Dashboard Stats Data:', data);
 
         setStats([
           {
@@ -112,14 +71,6 @@ function Dashboard() {
             progressValue: data.customers_progress ?? 0,
             progressColor: 'warning',
           },
-          // {
-          //   title: "Audio Calls",
-          //   value: data.audio_calls ?? "-",
-          //   change: data.audio_calls_change ?? "",
-          //   icon: <PhoneIcon />,
-          //   progressValue: data.audio_calls_progress ?? 0,
-          //   progressColor: "info",
-          // },
           {
             title: 'Video Calls',
             value: data.video_calls ?? '-',
@@ -131,54 +82,73 @@ function Dashboard() {
           {
             title: 'Today Customer Count',
             value: data.customers_created_yesterday ?? '-',
-            // change: data.video_calls_change ?? '',
             icon: <AccessTimeIcon />,
-            // progressValue: data.video_calls_progress ?? 0,
-            // progressColor: 'success',
           },
         ]);
-      })
-      .catch(() => {
-        // Optionally handle error
-      });
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+      } finally {
+        setLoading(false); // 🔹 Stop loading
+      }
+    };
+
+    fetchStats();
   }, []);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
-        <MDBox py={3}>
-          <Grid container spacing={3}>
-            {stats.map((stat) => (
-              <Grid item xs={12} md={6} lg={3} key={stat.title}>
-                <MDBox mb={1.5} height="auto">
-                  <ComplexStatisticsCard
-                    title={stat.title}
-                    count={stat.value}
-                    percentage={{
-                      color: stat.progressColor,
-                      amount: stat.change,
-                      label: '',
-                    }}
-                    icon={stat.icon}
-                    progressValue={stat.progressValue}
-                    progressColor={stat.progressColor}
-                  />
-                </MDBox>
+        {loading ? (
+          // 🔹 Show loader while fetching
+          <MDBox
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            height="60vh"
+          >
+            <CircularProgress size={50} />
+            <Typography variant="body2" color="text" sx={{ mt: 2 }}>
+              Loading Dashboard...
+            </Typography>
+          </MDBox>
+        ) : (
+          <>
+            <MDBox py={3}>
+              <Grid container spacing={3}>
+                {stats.map((stat) => (
+                  <Grid item xs={12} md={6} lg={3} key={stat.title}>
+                    <MDBox mb={1.5} height="auto">
+                      <ComplexStatisticsCard
+                        title={stat.title}
+                        count={stat.value}
+                        percentage={{
+                          color: stat.progressColor,
+                          amount: stat.change,
+                          label: '',
+                        }}
+                        icon={stat.icon}
+                        progressValue={stat.progressValue}
+                        progressColor={stat.progressColor}
+                      />
+                    </MDBox>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </MDBox>
-        <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid> */}
-          </Grid>
-        </MDBox>
+            </MDBox>
+            <MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6} lg={8}>
+                  <Projects />
+                </Grid>
+                {/* <Grid item xs={12} md={6} lg={4}>
+                  <OrdersOverview />
+                </Grid> */}
+              </Grid>
+            </MDBox>
+          </>
+        )}
       </MDBox>
       <Footer />
     </DashboardLayout>

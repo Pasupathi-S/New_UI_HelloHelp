@@ -7,6 +7,8 @@ import Card from '@mui/material/Card';
 import Tooltip from '@mui/material/Tooltip';
 import Chip from '@mui/material/Chip';
 import PropTypes from 'prop-types';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
@@ -14,7 +16,6 @@ import MDBox from 'components/MDBox';
 import MDTypography from 'components/MDTypography';
 import DataTable from 'examples/Tables/DataTable';
 import Footer from 'examples/Footer';
-import Header from 'layouts/profile/components/Header';
 import HistoryIcon from '@mui/icons-material/History';
 
 function StatusChip({ value }) {
@@ -64,11 +65,12 @@ MessageCell.propTypes = {
 
 function NotificationHistory() {
   const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true); // ⬅️ Loading state
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const token = localStorage.getItem('token'); // 🔐 Get token from localStorage
+        const token = localStorage.getItem('token');
         const response = await axios.get(
           'https://lemonpeak-hellohelp-backend.onrender.com/api/admin/notification-history',
           {
@@ -78,25 +80,24 @@ function NotificationHistory() {
           }
         );
 
-        const transformed = response.data.map((n) => {
-          console.log('Notification data:', n);
-          return {
-            id: n.id,
-            campaignId: n.campaign_id || '-',
-            date: dayjs(n.sent_at).format('DD-MM-YYYY hh:mm A'),
-            userid: n.user_id,
-            username: n.username.charAt(0).toUpperCase() + n.username.slice(1),
-            recipients: [n.username],
-            title: n.title,
-            message: n.body,
-            offerCode: n.data?.offer_code || '-',
-            status: n.status === 'success' ? 'Sent' : 'Failed',
-          };
-        });
+        const transformed = response.data.map((n) => ({
+          id: n.id,
+          campaignId: n.campaign_id || '-',
+          date: dayjs(n.sent_at).format('DD-MM-YYYY, hh:mm A'),
+          userid: n.user_id,
+          username: n.username.charAt(0).toUpperCase() + n.username.slice(1),
+          recipients: [n.username],
+          title: n.title,
+          message: n.body,
+          offerCode: n.data?.offer_code || '-',
+          status: n.status === 'success' ? 'Sent' : 'Failed',
+        }));
 
         setNotifications(transformed);
       } catch (error) {
         console.error('Error fetching notifications:', error);
+      } finally {
+        setLoading(false); // ⬅️ Stop loading
       }
     };
 
@@ -119,10 +120,10 @@ function NotificationHistory() {
                   px={2}
                   variant="gradient"
                   sx={{
-                    background: '#1D4ED8', // gradient using your color
-                    color: 'white', // or any readable color
+                    background: '#1D4ED8',
+                    color: 'white',
                     fontWeight: 600,
-                    boxShadow: 'none', // custom shadow to match color
+                    boxShadow: 'none',
                   }}
                   borderRadius="lg"
                   coloredShadow="info"
@@ -132,74 +133,79 @@ function NotificationHistory() {
                     Notification History
                   </MDTypography>
                 </MDBox>
+
                 <MDBox pt={1}>
-                  <DataTable
-                    table={{
-                      columns: [
-                        // {
-                        //   Header: () => <span style={{ marginRight: '30px' }}>Id</span>,
-                        //   accessor: 'id',
-                        // },
-                        {
-                          Header: () => <span className="text-lowercase">Date & Time</span>,
-                          accessor: 'date',
-                        },
-
-                        {
-                          Header: () => (
-                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
-                              Campaign Id
-                            </span>
-                          ),
-                          accessor: 'campaignId',
-                        },
-                        // {
-                        //   Header: () => <span style={{ marginRight: '30px' }}>User Id</span>,
-                        //   accessor: 'userid',
-                        // },
-                        {
-                          Header: () => (
-                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
-                              User Name
-                            </span>
-                          ),
-                          accessor: 'username',
-                        },
-
-                        {
-                          Header: () => (
-                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
-                              Title
-                            </span>
-                          ),
-                          accessor: 'title',
-                        },
-                        {
-                          Header: () => (
-                            <span className="text-lowercase" style={{ marginRight: '30px' }}>
-                              Message
-                            </span>
-                          ),
-                          accessor: 'message',
-                          Cell: MessageCell,
-                        },
-
-                        {
-                          Header: () => <span className="text-lowercase">Status</span>,
-                          accessor: 'status',
-                          Cell: StatusChip,
-                        },
-                      ],
-                      rows: notifications,
-                    }}
-                    isSorted={true}
-                    entriesPerPage={{
-                      defaultValue: 20,
-                      entries: [20, 50, 100, 200],
-                    }}
-                    showTotalEntries={true}
-                    noEndBorder
-                  />
+                  {loading ? (
+                    <MDBox
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="center"
+                      alignItems="center"
+                      py={5}
+                    >
+                      <CircularProgress color="primary" />
+                      <MDTypography mt={2} variant="body2" color="text">
+                        Loading Notification History ...
+                      </MDTypography>
+                    </MDBox>
+                  ) : (
+                    <DataTable
+                      table={{
+                        columns: [
+                          {
+                            Header: () => <span className="text-lowercase">Date & Time</span>,
+                            accessor: 'date',
+                          },
+                          {
+                            Header: () => (
+                              <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                                Campaign Id
+                              </span>
+                            ),
+                            accessor: 'campaignId',
+                          },
+                          {
+                            Header: () => (
+                              <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                                User Name
+                              </span>
+                            ),
+                            accessor: 'username',
+                          },
+                          {
+                            Header: () => (
+                              <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                                Title
+                              </span>
+                            ),
+                            accessor: 'title',
+                          },
+                          {
+                            Header: () => (
+                              <span className="text-lowercase" style={{ marginRight: '30px' }}>
+                                Message
+                              </span>
+                            ),
+                            accessor: 'message',
+                            Cell: MessageCell,
+                          },
+                          {
+                            Header: () => <span className="text-lowercase">Status</span>,
+                            accessor: 'status',
+                            Cell: StatusChip,
+                          },
+                        ],
+                        rows: notifications,
+                      }}
+                      isSorted={true}
+                      entriesPerPage={{
+                        defaultValue: 20,
+                        entries: [20, 50, 100, 200],
+                      }}
+                      showTotalEntries={true}
+                      noEndBorder
+                    />
+                  )}
                 </MDBox>
               </Card>
             </MDBox>

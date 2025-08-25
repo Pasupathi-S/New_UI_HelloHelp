@@ -21,7 +21,7 @@ import GroupIcon from '@mui/icons-material/Group';
 const routes = [
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Dashboard</span>,
+    name: <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}>Dashboard</span>,
     key: 'dashboard',
     icon: (
       <Icon fontSize="small" sx={{ color: '#737373' }}>
@@ -33,7 +33,7 @@ const routes = [
   },
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Agents</span>,
+    name: <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}>Agents</span>,
     key: 'agents',
     icon: <GroupIcon fontSize="small" sx={{ color: '#737373 !important' }} />,
     route: '/agents',
@@ -41,7 +41,7 @@ const routes = [
   },
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Customers</span>,
+    name: <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}>Customers</span>,
     key: 'customers',
     icon: <PersonAddIcon fontSize="small" sx={{ color: '#737373 !important' }} />,
 
@@ -51,7 +51,9 @@ const routes = [
 
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Call History</span>,
+    name: (
+      <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}>Call History</span>
+    ),
     key: 'call-history',
     icon: (
       <Icon fontSize="small" sx={{ color: '#737373' }}>
@@ -71,7 +73,11 @@ const routes = [
   // },
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Push Notifications</span>,
+    name: (
+      <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}>
+        Push Notifications
+      </span>
+    ),
     key: 'notifications',
     icon: (
       <Icon fontSize="small" sx={{ color: '#737373' }}>
@@ -83,7 +89,11 @@ const routes = [
   },
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}>Notification History</span>,
+    name: (
+      <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}>
+        Notification History
+      </span>
+    ),
     key: 'notification-history',
     icon: (
       <Icon fontSize="small" sx={{ color: '#737373' }}>
@@ -103,7 +113,7 @@ const routes = [
   // },
   {
     type: 'collapse',
-    name: <span style={{ color: '#737373', fontWeight: '700' }}> Logout </span>,
+    name: <span style={{ color: '#737373', fontSize: '1rem', fontWeight: '700' }}> Logout </span>,
     key: 'sign-in',
     icon: (
       <Icon fontSize="small" sx={{ color: '#737373' }}>

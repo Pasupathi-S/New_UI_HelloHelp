@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import Icon from '@mui/material/Icon';
 import Chip from '@mui/material/Chip';
-import { Stack } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import CallIcon from '@mui/icons-material/Call';
+import { Tooltip, IconButton, CircularProgress } from '@mui/material';
 
 import MDBox from 'components/MDBox';
 import MDTypography from 'components/MDTypography';
-import MDButton from 'components/MDButton';
 import DataTable from 'examples/Tables/DataTable';
-import { Tooltip, IconButton } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-// Reusable Chips
+// ---------------------- Reusable Chips ----------------------
 
 function CallTypeChip({ value }) {
   return (
@@ -78,12 +75,11 @@ IdChip.propTypes = {
 };
 
 function CallerChip({ value }) {
-  console.log('value in CallerChip:', value);
-
+  const displayValue = !value || value === 'null' ? 'Unknown' : value;
   return (
     <Chip
       className="table-data"
-      label={value}
+      label={displayValue}
       sx={{
         backgroundColor: '#ffffff',
         px: 1.5,
@@ -95,46 +91,8 @@ function CallerChip({ value }) {
 CallerChip.propTypes = {
   value: PropTypes.string.isRequired,
 };
+
 function CallerName({ value }) {
-  console.log('value in name:', value);
-
-  return (
-    <Chip
-      className="table-data"
-      label={value.charAt(0).toUpperCase() + value.slice(1)}
-      sx={{
-        backgroundColor: '#ffffff',
-        px: 1.5,
-        py: 0,
-      }}
-    />
-  );
-}
-CallerName.propTypes = {
-  value: PropTypes.string.isRequired,
-};
-
-function ReceiverChip({ value }) {
-  console.log('value in ReceiverChip:', value);
-  const displayReceiverValue = !value || value === 'null' ? 'Unknown' : value;
-  return (
-    <Chip
-      className="table-data"
-      label={displayReceiverValue}
-      sx={{
-        backgroundColor: '#ffffff',
-        px: 3.5,
-        py: 0,
-      }}
-    />
-  );
-}
-ReceiverChip.propTypes = {
-  value: PropTypes.string.isRequired,
-};
-function ReceiverName({ value }) {
-  console.log('value in name:', value);
-
   const displayValue =
     !value || value === 'null' ? 'Unknown' : value.charAt(0).toUpperCase() + value.slice(1);
 
@@ -150,7 +108,44 @@ function ReceiverName({ value }) {
     />
   );
 }
+CallerName.propTypes = {
+  value: PropTypes.string.isRequired,
+};
 
+function ReceiverChip({ value }) {
+  const displayValue = !value || value === 'null' ? 'Unknown' : value;
+  return (
+    <Chip
+      className="table-data"
+      label={displayValue}
+      sx={{
+        backgroundColor: '#ffffff',
+        px: 3.5,
+        py: 0,
+      }}
+    />
+  );
+}
+ReceiverChip.propTypes = {
+  value: PropTypes.string.isRequired,
+};
+
+function ReceiverName({ value }) {
+  const displayValue =
+    !value || value === 'null' ? 'Unknown' : value.charAt(0).toUpperCase() + value.slice(1);
+
+  return (
+    <Chip
+      className="table-data"
+      label={displayValue}
+      sx={{
+        backgroundColor: '#ffffff',
+        px: 1.5,
+        py: 0,
+      }}
+    />
+  );
+}
 ReceiverName.propTypes = {
   value: PropTypes.string,
 };
@@ -206,6 +201,7 @@ ActionButton.propTypes = {
     }).isRequired,
   }).isRequired,
 };
+
 function DateCell({ value }) {
   const date = new Date(value);
   const day = String(date.getDate()).padStart(2, '0');
@@ -217,7 +213,7 @@ DateCell.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-// Main Component
+// ---------------------- Main Component ----------------------
 
 export default function CallHistory() {
   const [callLogs, setCallLogs] = useState([]);
@@ -271,115 +267,114 @@ export default function CallHistory() {
                 Call History
               </MDTypography>
             </MDBox>
+
             <MDBox pt={3}>
-              <DataTable
-                table={{
-                  columns: [
-                    // { Header: 'ID', accessor: 'id', Cell: IdChip },
-                    {
-                      Header: <span className="text-lowercase">Date</span>,
-                      accessor: 'started_at',
-                      Cell: DateCell,
-                    },
-
-                    {
-                      Header: <span className="text-lowercase">Caller ID</span>,
-                      accessor: 'caller_id',
-                      Cell: CallerChip,
-                    },
-                    {
-                      Header: () => (
-                        <MDBox
-                          className="text-lowercase"
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            minWidth: '130px',
-                            maxWidth: '150px',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          }}
-                        >
-                          Caller Name
-                        </MDBox>
-                      ),
-                      accessor: 'caller_name',
-                      Cell: CallerName,
-                    },
-                    {
-                      Header: <span className="text-lowercase">Receiver ID</span>,
-                      accessor: 'receiver_id',
-                      Cell: ReceiverChip,
-                    },
-                    {
-                      Header: () => (
-                        <MDBox
-                          className="text-lowercase"
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            minWidth: '140px',
-                            maxWidth: '160px',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                          }}
-                        >
-                          Receiver Name
-                        </MDBox>
-                      ),
-                      accessor: 'receiver_name',
-                      Cell: ReceiverName,
-                    },
-
-                    {
-                      Header: <span className="text-lowercase">Call Type</span>,
-                      accessor: 'call_type',
-                      Cell: CallTypeChip,
-                    },
-                    {
-                      Header: <span className="text-lowercase">Request</span>,
-                      accessor: 'status',
-                      Cell: StatusChip,
-                    },
-                    // {
-                    //   Header: () => <span className="table-head">Meeting Call ID</span>,
-                    //   accessor: 'meeting_call_id',
-                    // },
-                    // {
-                    //   Header: () => <MDBox sx={{ mr: 3 }}>Device Type</MDBox>,
-                    //   accessor: 'device_type',
-                    //   Cell: DeviceTypeChip,
-                    //   sortType: (a, b) => {
-                    //     const deviceA = a.original.metadata?.device || '';
-                    //     const deviceB = b.original.metadata?.device || '';
-                    //     return deviceA.localeCompare(deviceB);
-                    //   },
-                    // },
-                    {
-                      Header: () => (
-                        <MDBox className="text-lowercase" sx={{ mr: 3 }}>
-                          Action
-                        </MDBox>
-                      ),
-                      accessor: 'actions',
-                      width: '50px',
-                      Cell: ActionButton,
-                    },
-                  ],
-                  rows: callLogs,
-                }}
-                isSorted
-                entriesPerPage={{
-                  defaultValue: 20,
-                  entries: [20, 50, 100, 200],
-                }}
-                showTotalEntries
-                noEndBorder
-              />
+              {loading ? (
+                <MDBox
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  py={5}
+                >
+                  <CircularProgress color="primary" />
+                  <MDTypography mt={2} variant="body2" color="text">
+                    Loading Call History...
+                  </MDTypography>
+                </MDBox>
+              ) : (
+                <DataTable
+                  table={{
+                    columns: [
+                      {
+                        Header: <span className="text-lowercase">Date</span>,
+                        accessor: 'started_at',
+                        Cell: DateCell,
+                      },
+                      {
+                        Header: <span className="text-lowercase">Caller ID</span>,
+                        accessor: 'caller_id',
+                        Cell: CallerChip,
+                      },
+                      {
+                        Header: () => (
+                          <MDBox
+                            className="text-lowercase"
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              minWidth: '130px',
+                              maxWidth: '150px',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            Caller Name
+                          </MDBox>
+                        ),
+                        accessor: 'caller_name',
+                        Cell: CallerName,
+                      },
+                      {
+                        Header: <span className="text-lowercase">Receiver ID</span>,
+                        accessor: 'receiver_id',
+                        Cell: ReceiverChip,
+                      },
+                      {
+                        Header: () => (
+                          <MDBox
+                            className="text-lowercase"
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              minWidth: '140px',
+                              maxWidth: '160px',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            Receiver Name
+                          </MDBox>
+                        ),
+                        accessor: 'receiver_name',
+                        Cell: ReceiverName,
+                      },
+                      {
+                        Header: <span className="text-lowercase">Call Type</span>,
+                        accessor: 'call_type',
+                        Cell: CallTypeChip,
+                      },
+                      {
+                        Header: <span className="text-lowercase">Request</span>,
+                        accessor: 'status',
+                        Cell: StatusChip,
+                      },
+                      {
+                        Header: () => (
+                          <MDBox className="text-lowercase" sx={{ mr: 3 }}>
+                            Action
+                          </MDBox>
+                        ),
+                        accessor: 'actions',
+                        width: '50px',
+                        Cell: ActionButton,
+                      },
+                    ],
+                    rows: callLogs,
+                  }}
+                  isSorted
+                  entriesPerPage={{
+                    defaultValue: 20,
+                    entries: [20, 50, 100, 200],
+                  }}
+                  showTotalEntries
+                  noEndBorder
+                />
+              )}
             </MDBox>
           </Card>
         </Grid>

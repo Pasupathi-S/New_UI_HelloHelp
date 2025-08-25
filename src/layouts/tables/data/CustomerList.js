@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Tooltip, IconButton } from '@mui/material';
+import { Tooltip, IconButton, CircularProgress, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,7 +10,12 @@ import MDAvatar from 'components/MDAvatar';
 import EditCustomerDialog from './EditCustomerDialog';
 import PropTypes from 'prop-types';
 
-export default function useCustomerList(fromDate = null, toDate = null, recentLimit = 20) {
+export default function useCustomerList(
+  fromDate = null,
+  toDate = null,
+  recentLimit = 20,
+  sortOrder = 'desc' // ✅ keep descending for recent data
+) {
   const Author = ({ image, name, email }) => (
     <MDBox display="flex" alignItems="center">
       {image}
@@ -30,7 +35,7 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
   );
 
   Author.propTypes = {
-    image: PropTypes.node, // changed to node since you pass JSX, not string
+    image: PropTypes.node,
     name: PropTypes.string.isRequired,
     email: PropTypes.string,
   };
@@ -47,10 +52,12 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
     title: PropTypes.string,
   };
 
+  // States
   const [rows, setRows] = React.useState([]);
   const [recentCustomers, setRecentCustomers] = React.useState([]);
   const [editOpen, setEditOpen] = React.useState(false);
   const [currentCustomer, setCurrentCustomer] = React.useState(null);
+  const [loading, setLoading] = React.useState(true); // ✅ loading state
 
   const fetchCustomers = async () => {
     const token = localStorage.getItem('token');
@@ -74,6 +81,7 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
   };
 
   const refreshData = async () => {
+    setLoading(true); // ✅ start loading
     const customerData = await fetchCustomers();
     const from = fromDate ? new Date(fromDate + 'T00:00:00') : null;
     const to = toDate ? new Date(toDate + 'T23:59:59.999') : null;
@@ -83,8 +91,12 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
       return (!from || createdDate >= from) && (!to || createdDate <= to);
     });
 
-    // Sort by most recent first
-    const sortedData = filteredData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const sortedData = filteredData.sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return new Date(a.created_at) - new Date(b.created_at);
+      }
+      return new Date(b.created_at) - new Date(a.created_at); // ✅ keep descending default
+    });
 
     const formattedRows = sortedData.map((customer) => ({
       id: <Job title={String(customer.id)} />,
@@ -114,14 +126,16 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
       created_at: (
         <MDTypography variant="caption" color="text" fontWeight="medium">
           {customer.created_at
-            ? new Date(customer.created_at).toLocaleString('en-GB', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true,
-              })
+            ? new Date(customer.created_at)
+                .toLocaleString('en-GB', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                })
+                .replace(/\//g, '-')
             : '—'}
         </MDTypography>
       ),
@@ -164,22 +178,20 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
     }));
 
     setRows(formattedRows);
+    setRecentCustomers(
+      sortOrder === 'desc' ? sortedData.slice(0, recentLimit) : sortedData.slice(-recentLimit)
+    );
 
-    // Keep only top N most recent customers (default 5)
-    setRecentCustomers(sortedData.slice(0, recentLimit));
+    setLoading(false); // ✅ stop loading
   };
 
   React.useEffect(() => {
     refreshData();
-  }, [fromDate, toDate]);
+  }, [fromDate, toDate, sortOrder]);
 
   return {
     columns: [
-      {
-        Header: <MDBox className="text-lowercase">Id</MDBox>,
-        accessor: 'id',
-        align: 'left',
-      },
+      { Header: <MDBox className="text-lowercase">Id</MDBox>, accessor: 'id', align: 'left' },
       {
         Header: <MDBox className="text-lowercase">First Name</MDBox>,
         accessor: 'username',
@@ -203,7 +215,8 @@ export default function useCustomerList(fromDate = null, toDate = null, recentLi
       },
     ],
     rows,
-    recentCustomers, // array of most recent raw customer objects
+    recentCustomers,
+    loading, // ✅ expose loading state
     editDialog: (
       <EditCustomerDialog
         open={editOpen}

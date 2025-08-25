@@ -1,8 +1,5 @@
-// ✅ Updated code to support showing 20/50/100/200 entries based on dropdown selection
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import MDBox from 'components/MDBox';
@@ -14,7 +11,7 @@ import DataTable from 'examples/Tables/DataTable';
 import CustomerList from 'layouts/tables/data/CustomerList';
 import AgentList from 'layouts/tables/data/AgentList';
 import AddIcon from '@mui/icons-material/Add';
-import { Dialog, DialogTitle, Box } from '@mui/material';
+import { Dialog, DialogTitle, Box, CircularProgress } from '@mui/material';
 import MDButton from 'components/MDButton';
 import AddAgent from 'layouts/tables/data/AddAgent';
 import MuiAlert from '@mui/material/Alert';
@@ -33,9 +30,14 @@ function Users({ type }) {
   const [toDate, setToDate] = useState('');
   const [open, setOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [limit, setLimit] = useState(20); // ✅ new state to control how many entries to show
+  const [limit, setLimit] = useState(20);
 
-  const { columns: pColumns, rows: pRows, editDialog } = CustomerList(fromDate, toDate, limit);
+  const {
+    columns: pColumns,
+    rows: pRows,
+    editDialog,
+    loading,
+  } = CustomerList(fromDate, toDate, limit);
 
   const [form, setForm] = useState({
     username: '',
@@ -53,6 +55,7 @@ function Users({ type }) {
       <DashboardNavbar />
       <MDBox pt={6} pb={5}>
         <Grid container spacing={6}>
+          {/* Agents Section */}
           {type === 'agents' && (
             <Grid item xs={12}>
               <Card>
@@ -118,6 +121,7 @@ function Users({ type }) {
             </Grid>
           )}
 
+          {/* Customers Section */}
           {type === 'customers' && (
             <Grid item xs={12}>
               <Card>
@@ -141,6 +145,7 @@ function Users({ type }) {
                     </MDTypography>
                   </Box>
 
+                  {/* Date Filters */}
                   <MDBox display="flex" flexWrap="wrap" justifyContent="flex-start" gap={2}>
                     <MDBox display="flex" alignItems="center" gap={1}>
                       <MDTypography sx={{ color: '#fff' }} variant="body2" fontWeight="medium">
@@ -169,18 +174,33 @@ function Users({ type }) {
                   </MDBox>
                 </MDBox>
 
-                <MDBox pt={3}>
-                  <DataTable
-                    table={{ columns: pColumns, rows: pRows }}
-                    isSorted={true}
-                    entriesPerPage={{
-                      defaultValue: 20,
-                      entries: [20, 50, 100, 200],
-                      setEntries: setLimit, // ✅ handle limit change
-                    }}
-                    showTotalEntries={true}
-                    noEndBorder
-                  />
+                <MDBox>
+                  {loading ? (
+                    <Box display="flex" flexDirection="column" alignItems="center" py={5}>
+                      <CircularProgress color="primary" />
+                      <MDTypography mt={2} variant="body2" color="text">
+                        Loading Customers...
+                      </MDTypography>
+                    </Box>
+                  ) : pRows.length === 0 ? (
+                    <Box display="flex" justifyContent="center" alignItems="center" py={3}>
+                      <MDTypography variant="h6" fontWeight="medium" sx={{ color: '#796d6ded' }}>
+                        No Data Found
+                      </MDTypography>
+                    </Box>
+                  ) : (
+                    <DataTable
+                      table={{ columns: pColumns, rows: pRows }}
+                      isSorted={true}
+                      entriesPerPage={{
+                        defaultValue: 20,
+                        entries: [20, 50, 100, 200],
+                        setEntries: setLimit,
+                      }}
+                      showTotalEntries={true}
+                      noEndBorder
+                    />
+                  )}
                 </MDBox>
               </Card>
             </Grid>

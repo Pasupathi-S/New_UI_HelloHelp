@@ -5,19 +5,19 @@ import PropTypes from 'prop-types';
 import MDBox from 'components/MDBox';
 import MDTypography from 'components/MDTypography';
 import MDAvatar from 'components/MDAvatar';
-import PersonIcon from '@mui/icons-material/Person';
 import { Icon } from '@mui/material';
 import MDButton from 'components/MDButton';
 import EditAgentDialog from './EditAgentDialog';
 import DataTable from 'examples/Tables/DataTable';
 import team2 from 'assets/images/team-2.jpg';
-import { Tooltip, IconButton, Avatar } from '@mui/material';
+import { Tooltip, IconButton, Avatar, CircularProgress, Box } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 
+// Author cell
 const Author = ({ image, name, email }) => (
   <MDBox display="flex" alignItems="center" lineHeight={1}>
-    {image} {/* ← This will render the Avatar with the first letter */}
+    {image}
     <MDBox ml={2} lineHeight={1}>
       {name && (
         <MDTypography display="block" variant="button" fontWeight="medium">
@@ -30,17 +30,18 @@ const Author = ({ image, name, email }) => (
 );
 
 Author.propTypes = {
-  image: PropTypes.string,
+  image: PropTypes.node, // changed from string since we pass <Avatar />
   name: PropTypes.string,
   email: PropTypes.string,
 };
 
 Author.defaultProps = {
-  image: '',
+  image: null,
   name: '',
   email: '',
 };
 
+// Job cell
 const Job = ({ title }) => (
   <MDBox lineHeight={1} textAlign="left">
     <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
@@ -86,12 +87,7 @@ export default function AgentList() {
       const sortedData = data.sort((a, b) => (b.id || 0) - (a.id || 0));
 
       const formattedRows = sortedData.map((agent) => ({
-        id: (
-          <Job
-            // sx={{ color: '#111827 !important', fontSize: '14px !important', fontWeight: 500 }}
-            title={String(agent.id || '')}
-          />
-        ),
+        id: <Job title={String(agent.id || '')} />,
         username: (
           <Author
             image={
@@ -116,7 +112,6 @@ export default function AgentList() {
             }
           />
         ),
-
         email: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
             {agent.email || '-'}
@@ -137,16 +132,13 @@ export default function AgentList() {
                 to={`/agent/${agent.id}`}
                 sx={{
                   color: '#181313',
-                  '&:hover': {
-                    color: '#181313', // Hover color for View icon
-                  },
+                  '&:hover': { color: '#181313' },
                 }}
                 size="small"
               >
                 <VisibilityIcon fontSize="small" />
               </IconButton>
             </Tooltip>
-
             <Tooltip title="Edit" arrow>
               <IconButton
                 onClick={() => {
@@ -155,9 +147,7 @@ export default function AgentList() {
                 }}
                 sx={{
                   color: '#181313',
-                  '&:hover': {
-                    color: '#181313', // Hover color for View icon
-                  },
+                  '&:hover': { color: '#181313' },
                 }}
                 size="small"
               >
@@ -220,14 +210,25 @@ export default function AgentList() {
     fetchAgents();
   }, []);
 
+  // ✅ Loading state
   if (loading) {
     return (
-      <MDBox display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-        {/* <CircularProgress /> */}
+      <MDBox
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        py={5}
+      >
+        <CircularProgress color="primary" />
+        <MDTypography mt={2} variant="body2" color="text">
+          Loading Agents...
+        </MDTypography>
       </MDBox>
     );
   }
 
+  // ✅ Error state
   if (error) {
     return (
       <MDBox display="flex" justifyContent="center" alignItems="center" minHeight="200px">
@@ -238,6 +239,7 @@ export default function AgentList() {
     );
   }
 
+  // ✅ Main Table
   return (
     <>
       <DataTable
@@ -269,7 +271,7 @@ export default function AgentList() {
               align: 'left',
             },
           ],
-          rows: Array.isArray(rows) ? rows : [], // Double safety check
+          rows: Array.isArray(rows) ? rows : [],
         }}
         isSorted={true}
         entriesPerPage={{
